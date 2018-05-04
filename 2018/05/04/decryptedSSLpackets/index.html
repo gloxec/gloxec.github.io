@@ -4,26 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dark Color Theme for Mac IDA7.0 | H o o k | 潜心习安全</title>
+    <title>decryptedSSLpackets | H o o k | 潜心习安全</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="hook">
     
 
     
-    <meta name="description" content="Mac IDA 7.0 深色主题记录下主题配置过程">
-<meta name="keywords" content="Mac IDA">
+    <meta name="description" content="wireshark中对SSL/TLS数据包解密 Master-Secret log解密，常用的解密方法，使用较为方便. RSA key解密(PEM或PKCS12格式).  这里主要记录下RSA key的解密方式，今天遇到了从流量包中提取到RSA private key证书的情况，然后利用证书来解密。">
+<meta name="keywords" content="SSL解密">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dark Color Theme for Mac IDA7.0">
-<meta property="og:url" content="https://gloxec.github.com/2018/04/12/Dark Color Theme for Mac IDA7.0/index.html">
+<meta property="og:title" content="decryptedSSLpackets">
+<meta property="og:url" content="https://gloxec.github.com/2018/05/04/decryptedSSLpackets/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
-<meta property="og:description" content="Mac IDA 7.0 深色主题记录下主题配置过程">
-<meta property="og:image" content="https://gloxec.github.com/images/Dark%20Color%20Theme%20for%20Mac%20IDA7.0/1.png">
-<meta property="og:updated_time" content="2018-04-12T03:02:08.000Z">
+<meta property="og:description" content="wireshark中对SSL/TLS数据包解密 Master-Secret log解密，常用的解密方法，使用较为方便. RSA key解密(PEM或PKCS12格式).  这里主要记录下RSA key的解密方式，今天遇到了从流量包中提取到RSA private key证书的情况，然后利用证书来解密。">
+<meta property="og:image" content="https://gloxec.github.com/images/decryptedSSLpackets/1.png">
+<meta property="og:image" content="https://gloxec.github.com/images/decryptedSSLpackets/2.png">
+<meta property="og:updated_time" content="2018-05-04T08:40:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dark Color Theme for Mac IDA7.0">
-<meta name="twitter:description" content="Mac IDA 7.0 深色主题记录下主题配置过程">
-<meta name="twitter:image" content="https://gloxec.github.com/images/Dark%20Color%20Theme%20for%20Mac%20IDA7.0/1.png">
+<meta name="twitter:title" content="decryptedSSLpackets">
+<meta name="twitter:description" content="wireshark中对SSL/TLS数据包解密 Master-Secret log解密，常用的解密方法，使用较为方便. RSA key解密(PEM或PKCS12格式).  这里主要记录下RSA key的解密方式，今天遇到了从流量包中提取到RSA private key证书的情况，然后利用证书来解密。">
+<meta name="twitter:image" content="https://gloxec.github.com/images/decryptedSSLpackets/1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="H o o k | 潜心习安全" type="application/atom+xml">
@@ -83,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/04/12/Dark Color Theme for Mac IDA7.0/" title="Dark Color Theme for Mac IDA7.0" itemprop="url">Dark Color Theme for Mac IDA7.0</a>
+      <a href="/2018/05/04/decryptedSSLpackets/" title="decryptedSSLpackets" itemprop="url">decryptedSSLpackets</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-12T02:46:37.000Z" itemprop="datePublished"> 發表於 2018-04-12</time>
+    <time datetime="2018-05-04T03:15:37.000Z" itemprop="datePublished"> 發表於 2018-05-04</time>
     
   </p>
 </header>
@@ -99,23 +100,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac-IDA-7-0-深色主题"><span class="toc-number">1.</span> <span class="toc-text">Mac IDA 7.0 深色主题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IDASkins-安装"><span class="toc-number">1.1.</span> <span class="toc-text">IDASkins 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida-consonance-安装"><span class="toc-number">1.2.</span> <span class="toc-text">ida-consonance 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最终效果图"><span class="toc-number">1.3.</span> <span class="toc-text">最终效果图</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#wireshark中对SSL-TLS数据包解密"><span class="toc-number">1.</span> <span class="toc-text">wireshark中对SSL/TLS数据包解密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RSA-private-key的添加方法"><span class="toc-number">1.1.</span> <span class="toc-text">RSA private key的添加方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解密效果"><span class="toc-number">1.2.</span> <span class="toc-text">解密效果</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="Mac-IDA-7-0-深色主题"><a href="#Mac-IDA-7-0-深色主题" class="headerlink" title="Mac IDA 7.0 深色主题"></a>Mac IDA 7.0 深色主题</h1><p>记录下主题配置过程<br><a id="more"></a></p>
-<h2 id="IDASkins-安装"><a href="#IDASkins-安装" class="headerlink" title="IDASkins 安装"></a>IDASkins 安装</h2><ul>
-<li>编译安装: <a href="https://github.com/zyantific/IDASkins" target="_blank" rel="noopener">https://github.com/zyantific/IDASkins</a></li>
-<li>已编译好的动态库: <a href="https://github.com/gloxec/IDA_plugins_mac/tree/master/7.0/IDASkins-IDA-7.0%20Mac%20OS" target="_blank" rel="noopener">https://github.com/gloxec/IDA_plugins_mac/tree/master/7.0/IDASkins-IDA-7.0%20Mac%20OS</a></li>
-<li>两个dylib放在IDA plugins目录下</li>
-<li>skin放在<code>/Applications/...../ida.app/Contents/MacOS/</code>目录下</li>
-</ul>
-<h2 id="ida-consonance-安装"><a href="#ida-consonance-安装" class="headerlink" title="ida-consonance 安装"></a>ida-consonance 安装</h2><p>单纯装完IDASKins发现多部分窗口配色依旧没有改变，所以还需要这个来完成深色主题的配置。</p>
-<ul>
-<li>下载 <a href="https://github.com/eugeii/ida-consonance" target="_blank" rel="noopener">https://github.com/eugeii/ida-consonance</a> 获取clr文件</li>
-<li>IDA中设置颜色，<code>Options</code>-&gt;<code>Colors</code>-&gt;<code>Import</code>导入刚才下载的clr文件</li>
-</ul>
-<h2 id="最终效果图"><a href="#最终效果图" class="headerlink" title="最终效果图"></a>最终效果图</h2><p><img src="/images/Dark Color Theme for Mac IDA7.0/1.png" alt=""></p>
+		<h1 id="wireshark中对SSL-TLS数据包解密"><a href="#wireshark中对SSL-TLS数据包解密" class="headerlink" title="wireshark中对SSL/TLS数据包解密"></a>wireshark中对SSL/TLS数据包解密</h1><ol>
+<li>Master-Secret log解密，常用的解密方法，使用较为方便.</li>
+<li>RSA key解密(PEM或PKCS12格式).</li>
+</ol>
+<p>这里主要记录下RSA key的解密方式，今天遇到了从流量包中提取到RSA private key证书的情况，然后利用证书来解密。</p>
+<a id="more"></a>
+<h2 id="RSA-private-key的添加方法"><a href="#RSA-private-key的添加方法" class="headerlink" title="RSA private key的添加方法"></a>RSA private key的添加方法</h2><p>在wireshark配置中选择<code>协议</code>,在SSL下编辑<code>RSA keys list</code><br>分别填写<code>通信目的IP</code>, <code>端口</code>, <code>协议</code>, <code>Key File</code>, <code>密码</code><br>这里<code>IP</code>,<code>端口</code>支持<code>0</code>通配, {<code>0.0.0.0</code> : <code>0</code>}<br><code>Key File</code>: 私钥证书文件，这里必须保证证书格式为PEM或者PKCS12<br><code>密码</code>: 若证书本身自带密码，需要填写<br><img src="/images/decryptedSSLpackets/1.png" alt=""></p>
+<h2 id="解密效果"><a href="#解密效果" class="headerlink" title="解密效果"></a>解密效果</h2><p>可以看到SSL帧下有了被解密的内容<code>Decrypted SSL Data</code><br><img src="/images/decryptedSSLpackets/2.png" alt=""></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -123,13 +119,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Mac/">Mac</a>
+  <a class="article-category-link" href="/categories/misc/">misc</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Mac-IDA/">Mac IDA</a>
+  <span></span> <a href="/tags/SSL解密/">SSL解密</a>
   </div>
 
 </div>
@@ -138,7 +134,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2018/04/12/Dark Color Theme for Mac IDA7.0/" data-title="Dark Color Theme for Mac IDA7.0 | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2018/05/04/decryptedSSLpackets/" data-title="decryptedSSLpackets | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,19 +147,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/04/12/roputils/" title="roputils">
-  <strong>上一篇：</strong><br/>
-  <span>
-  roputils</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/06/13/macOS Kernel Debug/"  title="macOS Kernel Debug">
+<a href="/2018/04/12/roputils/"  title="roputils">
  <strong>下一篇：</strong><br/> 
- <span>macOS Kernel Debug
+ <span>roputils
 </span>
 </a>
 </div>
@@ -180,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mac-IDA-7-0-深色主题"><span class="toc-number">1.</span> <span class="toc-text">Mac IDA 7.0 深色主题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IDASkins-安装"><span class="toc-number">1.1.</span> <span class="toc-text">IDASkins 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida-consonance-安装"><span class="toc-number">1.2.</span> <span class="toc-text">ida-consonance 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最终效果图"><span class="toc-number">1.3.</span> <span class="toc-text">最终效果图</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#wireshark中对SSL-TLS数据包解密"><span class="toc-number">1.</span> <span class="toc-text">wireshark中对SSL/TLS数据包解密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RSA-private-key的添加方法"><span class="toc-number">1.1.</span> <span class="toc-text">RSA private key的添加方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解密效果"><span class="toc-number">1.2.</span> <span class="toc-text">解密效果</span></a></li></ol></li></ol>
  
   </div>
 
