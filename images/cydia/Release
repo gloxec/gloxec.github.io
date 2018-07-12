@@ -1,0 +1,8 @@
+Origin: hooooook插件源 
+Label: 更新些常用的插件
+Version: 1.0
+Suite: beta
+Codename: gloxec.github.io
+Architectures: iphoneos-arm
+Components: main
+Description: hooooook插件源

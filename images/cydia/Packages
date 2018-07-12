@@ -1,0 +1,17 @@
+Package: com.hoooook.timstoryhelper
+Version: 0.0.1-1+debug
+Architecture: iphoneos-arm
+Maintainer: hooooooooook
+Installed-Size: 1836
+Depends: mobilesubstrate
+Filename: debs/com.hoooook.timstoryhelper_0.0.1-1_iphoneos-arm.deb
+Size: 496720
+MD5sum: 046d24e8c6ab40632f726d8e2dde1f65
+SHA1: d978e82cbecadfffcb050036f68c506ea58f5704
+SHA256: efd2a523be5dc9afb32c690519c471cac232c771dd7f151a2c8767e71c3e2450
+Section: Tweaks
+Description: 适用于iOS 64位 TIM 2.2.5版本的自动抢红包插件
+Author: hooooooooook
+Contact: gloxec.github.io
+Name: TIMStoryHelper
+
