@@ -1,30 +1,30 @@
 Package: com.hoooook.qqstoryhelper
-Version: 0.0.1-2+debug
+Version: 0.0.1-4+debug
 Architecture: iphoneos-arm
 Maintainer: hooooooooook
 Installed-Size: 2152
 Depends: mobilesubstrate
-Filename: debs/com.hoooook.qqstoryhelper_0.0.1-2_iphoneos-arm.deb
-Size: 409656
-MD5sum: 22f9efcd77ce29fbc3b3baf3f41ea444
-SHA1: 7bc6895c5059a5fd476caf552b524d60f07e03cb
-SHA256: 6e0c371ca770882f61907cc2089b2c6474696c3408268e84ff2b76317e9c7783
+Filename: debs/com.hoooook.qqstoryhelper_0.0.1-4_iphoneos-arm.deb
+Size: 410098
+MD5sum: 6496881bb5dd77abdcceb010d46a375c
+SHA1: 5246099b4972b8f60cda89b96bd1b13b3708abc3
+SHA256: 2f866cd0a86eaa6df54b294ef6a51979ca12fd189ad1c6508d5b2527e00f361a
 Section: Tweaks
 Description: 适用于iOS 64位QQ7.5.5版本的自动抢红包插件
 Author: hooooooooook
 Name: QQStoryHelper
 
 Package: com.hoooook.timstoryhelper
-Version: 0.0.1-18+debug
+Version: 0.0.1-20+debug
 Architecture: iphoneos-arm
 Maintainer: hooooooooook
 Installed-Size: 1992
 Depends: mobilesubstrate
-Filename: debs/com.hoooook.timstoryhelper_0.0.1-18_iphoneos-arm.deb
-Size: 378986
-MD5sum: a478178a0c8800f55fbbab764152f805
-SHA1: 093e5b13f7025c16d084c69faf7c470352d25654
-SHA256: 8b376c8b177b5eb1a93c2b75c3ea7b0619bec6303e9761d0c8e15c26f6be2338
+Filename: debs/com.hoooook.timstoryhelper_0.0.1-20_iphoneos-arm.deb
+Size: 379218
+MD5sum: 30f29e3db995a8450b0a438fdbbd0296
+SHA1: 8d8edb1b36a0f0f4299c3b7e6d1f8d772a6378ef
+SHA256: 8c4f3058d177bfbfcdadc7f306b1b944d18cbbfecbe6f1a66d2052b90213ed7b
 Section: Tweaks
 Description: 适用于iOS 64位 TIM 2.2.5版本的自动抢红包插件
 Author: hooooooooook
