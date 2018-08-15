@@ -4,24 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>some docker security options | H o o k | 潜心习安全</title>
+    <title>Use Frida to decrypt communication packets and interact with Burpsuite | H o o k | 潜心习安全</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="hook">
     
 
     
-    <meta name="description" content="在搭建pwn环境时遇到的一些问题原本是用虚拟机来进行pwn相关的调试开发等，后来因为固态太小，实在没地放了，就才转向docker。这里记录下使用时遇到的一些问题。">
-<meta name="keywords" content="docker">
+    <meta name="description" content="使用Frida解密通信数据包并与Burpsuite交互分析App时经常遇到网络通信数据包加密的情况，逆向分析后虽然可以写出解密前信息提示或者修改的插件，但是无法动态修改数据包中指定字段，对于其他自动化测试极为不方便。这里可以使用frida编写插件让其与burpsuite进行交互。">
+<meta name="keywords" content="frida">
 <meta property="og:type" content="article">
-<meta property="og:title" content="some docker security options">
-<meta property="og:url" content="https://gloxec.github.com/2017/03/06/some docker security options/index.html">
+<meta property="og:title" content="Use Frida to decrypt communication packets and interact with Burpsuite">
+<meta property="og:url" content="https://gloxec.github.com/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
-<meta property="og:description" content="在搭建pwn环境时遇到的一些问题原本是用虚拟机来进行pwn相关的调试开发等，后来因为固态太小，实在没地放了，就才转向docker。这里记录下使用时遇到的一些问题。">
-<meta property="og:updated_time" content="2018-01-13T14:36:14.000Z">
+<meta property="og:description" content="使用Frida解密通信数据包并与Burpsuite交互分析App时经常遇到网络通信数据包加密的情况，逆向分析后虽然可以写出解密前信息提示或者修改的插件，但是无法动态修改数据包中指定字段，对于其他自动化测试极为不方便。这里可以使用frida编写插件让其与burpsuite进行交互。">
+<meta property="og:image" content="https://gloxec.github.com/images/Use%20Frida%20to%20decrypt%20communication%20packets%20and%20interact%20with%20Burpsuite/1.png">
+<meta property="og:image" content="https://gloxec.github.com/images/Use%20Frida%20to%20decrypt%20communication%20packets%20and%20interact%20with%20Burpsuite/2.png">
+<meta property="og:updated_time" content="2018-08-15T09:47:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="some docker security options">
-<meta name="twitter:description" content="在搭建pwn环境时遇到的一些问题原本是用虚拟机来进行pwn相关的调试开发等，后来因为固态太小，实在没地放了，就才转向docker。这里记录下使用时遇到的一些问题。">
+<meta name="twitter:title" content="Use Frida to decrypt communication packets and interact with Burpsuite">
+<meta name="twitter:description" content="使用Frida解密通信数据包并与Burpsuite交互分析App时经常遇到网络通信数据包加密的情况，逆向分析后虽然可以写出解密前信息提示或者修改的插件，但是无法动态修改数据包中指定字段，对于其他自动化测试极为不方便。这里可以使用frida编写插件让其与burpsuite进行交互。">
+<meta name="twitter:image" content="https://gloxec.github.com/images/Use%20Frida%20to%20decrypt%20communication%20packets%20and%20interact%20with%20Burpsuite/1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="H o o k | 潜心习安全" type="application/atom+xml">
@@ -81,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/06/some docker security options/" title="some docker security options" itemprop="url">some docker security options</a>
+      <a href="/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/" title="Use Frida to decrypt communication packets and interact with Burpsuite" itemprop="url">Use Frida to decrypt communication packets and interact with Burpsuite</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-06T08:20:37.000Z" itemprop="datePublished"> 發表於 2017-03-06</time>
+    <time datetime="2018-08-09T03:15:37.000Z" itemprop="datePublished"> 發表於 2018-08-09</time>
     
   </p>
 </header>
@@ -97,14 +100,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#在搭建pwn环境时遇到的一些问题"><span class="toc-number">1.</span> <span class="toc-text">在搭建pwn环境时遇到的一些问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-gdb调试"><span class="toc-number">1.1.</span> <span class="toc-text">1. gdb调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-内核参数设定"><span class="toc-number">1.2.</span> <span class="toc-text">2. 内核参数设定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-gdb-attach"><span class="toc-number">1.3.</span> <span class="toc-text">3. gdb attach</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Frida解密通信数据包并与Burpsuite交互"><span class="toc-number">1.</span> <span class="toc-text">使用Frida解密通信数据包并与Burpsuite交互</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#message消息"><span class="toc-number">1.1.</span> <span class="toc-text">message消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻塞等待输入交互"><span class="toc-number">1.2.</span> <span class="toc-text">阻塞等待输入交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#burpsuite交互"><span class="toc-number">1.3.</span> <span class="toc-text">burpsuite交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行截图"><span class="toc-number">1.4.</span> <span class="toc-text">运行截图</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="在搭建pwn环境时遇到的一些问题"><a href="#在搭建pwn环境时遇到的一些问题" class="headerlink" title="在搭建pwn环境时遇到的一些问题"></a>在搭建pwn环境时遇到的一些问题</h1><p>原本是用虚拟机来进行pwn相关的调试开发等，后来因为固态太小，实在没地放了，就才转向docker。<br>这里记录下使用时遇到的一些问题。<br><a id="more"></a></p>
-<h2 id="1-gdb调试"><a href="#1-gdb调试" class="headerlink" title="1. gdb调试"></a>1. gdb调试</h2><p>docker默认是无法使用gdb调试的，所以在启动是加上参数：<br><code>--security-opt seccomp=unconfined</code></p>
-<h2 id="2-内核参数设定"><a href="#2-内核参数设定" class="headerlink" title="2. 内核参数设定"></a>2. 内核参数设定</h2><p>测试时经常需要改变一些内核参数，但docker中的proc是只读的，所以重新将其挂载到一个可写目录下<br><code>-v /proc:/writeable-proc</code></p>
-<h2 id="3-gdb-attach"><a href="#3-gdb-attach" class="headerlink" title="3. gdb attach"></a>3. gdb attach</h2><p>还是gdb的问题，当解决上面问题后，发现attach一个进程时，提示ptrace不允许操作。<br>按正常方法<code>echo 0 &gt; /proc/sys/kernel/yama/ptrace_scope</code>却没有用，即使是写入之前挂载的可写目录下也提示没有权限。<br>这里还是docker的默认安全配置问题，所以启动时加上参数：<br><code>--security-opt apparmor=unconfined</code></p>
+		<h1 id="使用Frida解密通信数据包并与Burpsuite交互"><a href="#使用Frida解密通信数据包并与Burpsuite交互" class="headerlink" title="使用Frida解密通信数据包并与Burpsuite交互"></a>使用Frida解密通信数据包并与Burpsuite交互</h1><p>分析App时经常遇到网络通信数据包加密的情况，逆向分析后虽然可以写出解密前信息提示或者修改的插件，但是无法动态修改数据包中指定字段，对于其他自动化测试极为不方便。这里可以使用frida编写插件让其与burpsuite进行交互。</p>
+<a id="more"></a>
+<h2 id="message消息"><a href="#message消息" class="headerlink" title="message消息"></a>message消息</h2><p>frida中有个消息机制，可以与目标进程中互相发送消息，在python中可注册message回调函数，处理接收与发送消息的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import frida</span><br><span class="line">import codecs</span><br><span class="line"></span><br><span class="line">def on_message(message, data):</span><br><span class="line">    if message[&apos;type&apos;] == &apos;send&apos;:</span><br><span class="line">        ...</span><br><span class="line">        script.post(&#123;&apos;type&apos;:&apos;returnValue&apos;, &apos;payload&apos;: &apos;value&apos;&#125;)</span><br><span class="line"></span><br><span class="line">with codecs.open(&apos;./agent.js&apos;, &apos;r&apos;, &apos;utf-8&apos;) as f:</span><br><span class="line">    source = f.read()</span><br><span class="line"></span><br><span class="line">session = frida.get_usb_device().attach(pid)</span><br><span class="line">script = session.create(source)</span><br><span class="line">script.on(&apos;message&apos;, on_message)</span><br><span class="line">script.load()</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="阻塞等待输入交互"><a href="#阻塞等待输入交互" class="headerlink" title="阻塞等待输入交互"></a>阻塞等待输入交互</h2><p>在注入的插件脚本中，可使用recv.wait来阻塞进程，等待返回消息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Interceptor.attach(....., &#123;</span><br><span class="line">    onEnter: function(args) &#123;</span><br><span class="line">        send(&apos;needValue&apos;);</span><br><span class="line">        var op = recv(&apos;returnValue&apos;, function(value) &#123;</span><br><span class="line">            args[0] = value.payload;</span><br><span class="line">        &#125;</span><br><span class="line">        op.wait();</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="burpsuite交互"><a href="#burpsuite交互" class="headerlink" title="burpsuite交互"></a>burpsuite交互</h2><p>通过上面的方法，已经可以完成注入App的数据阻塞等待动态修改了，接着将数据修改来源绑定到burpsuite上<br>这里可以将python端on_message中收发的消息数据使用http方式发送到burpsuite中，再等待burpsuite中修改后返回的结果。所以python端创建一个简单的http服务器，负责与burpsuite通信即可。<br>我在这里使用了HTTPServer创建了个本地服务器，监听28080端口，接着负责处理frida的on_message中使用requests模块与burpsuite 28081端口进行http通信，burpsuite proxy模块中设置监听127.0.0.1:28080地址，数据发送到127.0.0.1:28081地址。</p>
+<h2 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h2><p><img src="/images/Use Frida to decrypt communication packets and interact with Burpsuite/1.png" alt=""><br><img src="/images/Use Frida to decrypt communication packets and interact with Burpsuite/2.png" alt=""></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -112,13 +119,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/pwn/">pwn</a>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/docker/">docker</a>
+  <span></span> <a href="/tags/frida/">frida</a>
   </div>
 
 </div>
@@ -127,7 +134,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2017/03/06/some docker security options/" data-title="some docker security options | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/" data-title="Use Frida to decrypt communication packets and interact with Burpsuite | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +147,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/04/16/cstc2017/" title="cstc2017 wp">
-  <strong>上一篇：</strong><br/>
-  <span>
-  cstc2017 wp</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/03/05/exploit without info leak - 2/"  title="exploit without info leak - 2">
+<a href="/2018/05/04/decryptedSSLpackets/"  title="decryptedSSLpackets">
  <strong>下一篇：</strong><br/> 
- <span>exploit without info leak - 2
+ <span>decryptedSSLpackets
 </span>
 </a>
 </div>
@@ -169,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#在搭建pwn环境时遇到的一些问题"><span class="toc-number">1.</span> <span class="toc-text">在搭建pwn环境时遇到的一些问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-gdb调试"><span class="toc-number">1.1.</span> <span class="toc-text">1. gdb调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-内核参数设定"><span class="toc-number">1.2.</span> <span class="toc-text">2. 内核参数设定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-gdb-attach"><span class="toc-number">1.3.</span> <span class="toc-text">3. gdb attach</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Frida解密通信数据包并与Burpsuite交互"><span class="toc-number">1.</span> <span class="toc-text">使用Frida解密通信数据包并与Burpsuite交互</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#message消息"><span class="toc-number">1.1.</span> <span class="toc-text">message消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻塞等待输入交互"><span class="toc-number">1.2.</span> <span class="toc-text">阻塞等待输入交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#burpsuite交互"><span class="toc-number">1.3.</span> <span class="toc-text">burpsuite交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行截图"><span class="toc-number">1.4.</span> <span class="toc-text">运行截图</span></a></li></ol></li></ol>
  
   </div>
 
