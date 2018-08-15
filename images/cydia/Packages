@@ -31,3 +31,19 @@ Author: hooooooooook
 Contact: gloxec.github.io
 Name: TIMStoryHelper
 
+Package: com.ideviceteam.bettertelegram
+Version: 0.0.1-1
+Architecture: iphoneos-arm
+Maintainer: alby
+Installed-Size: 120
+Depends: mobilesubstrate
+Filename: debs/com.ideviceteam.bettertelegram_0.0.1-1_iphoneos-arm.deb
+Size: 7928
+MD5sum: 6c54f6bb2675cf8d20c46640b977f9a0
+SHA1: 1016c5e4f008aa39754c7def553293c84da2690d
+SHA256: d45b756eac87f5c7e5e4f2a16a03ca195d42eadae4fa9abd752bbf199c939f88
+Section: Tweaks
+Description: 可绕过iOS telegram频道屏蔽
+Author: alby
+Name: BetterTelegram
+
