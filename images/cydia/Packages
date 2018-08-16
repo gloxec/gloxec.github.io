@@ -1,3 +1,19 @@
+Package: com.hexplo.it.memscan
+Version: 1.4-1
+Architecture: iphoneos-arm
+Maintainer: Hexploitable
+Installed-Size: 196
+Filename: debs/com.hexplo.it.memscan_1.4-1_iphoneos-arm.deb
+Size: 11756
+MD5sum: f3d6e23e52665458c1bf5c3e4cfde994
+SHA1: f4fef8ad441605265c63f71042c6f2e0c4d69284
+SHA256: 63556e27b13db980d024588b81ee2744aa03fe038c3dd1721f43dcfe53b736e3
+Section: System
+Description: A memory scanning tool which uses mach_vm* to either dump memory or look for a specific sequence of bytes.
+Tag: role::hacker
+Author: Hexploitable
+Name: memscan
+
 Package: com.hoooook.qqstoryhelper
 Version: 0.0.1-4+debug
 Architecture: iphoneos-arm
@@ -46,4 +62,20 @@ Section: Tweaks
 Description: 可绕过iOS telegram频道屏蔽
 Author: alby
 Name: BetterTelegram
+
+Package: com.nablac0d3.sslkillswitch2
+Version: 0.12-3+debug
+Architecture: iphoneos-arm
+Maintainer: Alban Diquet <nabla.c0d3@gmail.com>
+Installed-Size: 128
+Depends: mobilesubstrate, preferenceloader
+Filename: debs/com.nablac0d3.sslkillswitch2_0.12.deb
+Size: 8024
+MD5sum: 3c655099f43337b5ef273e83dea7eb8f
+SHA1: d89ce355b24bed9d2b490f17baaac159b17bbbc0
+SHA256: a3280f2707c4fe00cc5d45c6901773fc883e0777f32b1e17454b2b5ed28a5c5c
+Section: Tweaks
+Description: Blackbox tool to disable SSL certificate validation - including certificate pinning - within iOS and OS X Apps.
+Author: Alban Diquet <nabla.c0d3@gmail.com>
+Name: SSL Kill Switch 2
 
