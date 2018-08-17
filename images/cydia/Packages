@@ -47,6 +47,23 @@ Author: hooooooooook
 Contact: gloxec.github.io
 Name: TIMStoryHelper
 
+Package: com.hoooook.timstoryhelper-2-7
+Version: 0.0.1-2+debug
+Architecture: iphoneos-arm
+Maintainer: hooooooooook
+Installed-Size: 1992
+Depends: mobilesubstrate
+Filename: debs/com.hoooook.timstoryhelper-2-7_0.0.1-2+debug_iphoneos-arm.deb
+Size: 380190
+MD5sum: 578d9f8bafb755c6ce896e0845cd584f
+SHA1: 732498efd69d2a2dbc29ea7324860df386704585
+SHA256: b8df8d6301add379e1b347aa0fa20de344f4c97b0136dca3f4d9b65406154f4a
+Section: Tweaks
+Description: 适用于iOS 64位 TIM 2.2.7版本的自动抢红包插件
+Author: hooooooooook
+Contact: gloxec.github.io
+Name: TIMStoryHelper_2_7
+
 Package: com.ideviceteam.bettertelegram
 Version: 0.0.1-1
 Architecture: iphoneos-arm
