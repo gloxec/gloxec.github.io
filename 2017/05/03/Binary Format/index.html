@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="H o o k | 潜心习安全">H o o k | 潜心习安全</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +68,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
@@ -91,14 +91,14 @@
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-03T14:28:37.000Z" itemprop="datePublished"> 發表於 2017-05-03</time>
+    <time datetime="2017-05-03T14:28:37.000Z" itemprop="datePublished"> Published 2017-05-03</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MacOS-iOS上的可执行二进制文件格式"><span class="toc-number">1.</span> <span class="toc-text">MacOS/iOS上的可执行二进制文件格式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MachO文件格式"><span class="toc-number">2.</span> <span class="toc-text">MachO文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构总览"><span class="toc-number">2.1.</span> <span class="toc-text">结构总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-MachO-Header"><span class="toc-number">2.2.</span> <span class="toc-text">1. MachO Header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Load-Commands"><span class="toc-number">2.3.</span> <span class="toc-text">2. Load Commands</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-SEGMENT"><span class="toc-number">2.3.1.</span> <span class="toc-text">. LC_SEGMENT</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SECTION"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">SECTION</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-LOAD-DYLINER"><span class="toc-number">2.3.2.</span> <span class="toc-text">. LC_LOAD_DYLINER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-CODE-SIGNATURE"><span class="toc-number">2.3.3.</span> <span class="toc-text">. LC_CODE_SIGNATURE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-MAIN"><span class="toc-number">2.3.4.</span> <span class="toc-text">. LC_MAIN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-…-gt-其他命令就暂不作记录了"><span class="toc-number">2.3.5.</span> <span class="toc-text">&lt;…&gt;. 其他命令就暂不作记录了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-DATA区"><span class="toc-number">2.4.</span> <span class="toc-text">3. DATA区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Section-TEXT"><span class="toc-number">2.4.1.</span> <span class="toc-text">. Section(__TEXT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Section-DATA"><span class="toc-number">2.4.2.</span> <span class="toc-text">. Section(__DATA)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-Table-Info"><span class="toc-number">2.4.3.</span> <span class="toc-text">. Symbol Table Info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-Symbol-Table-Info"><span class="toc-number">2.4.4.</span> <span class="toc-text">. Dynamic Symbol Table Info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-Loader-Info"><span class="toc-number">2.4.5.</span> <span class="toc-text">. Dynamic Loader Info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String-Table"><span class="toc-number">2.4.6.</span> <span class="toc-text">. String Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-Signature"><span class="toc-number">2.4.7.</span> <span class="toc-text">. Code Signature</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#——"><span class="toc-number">2.5.</span> <span class="toc-text">——-</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Universal-Binaries-Fat-File"><span class="toc-number">3.</span> <span class="toc-text">Universal Binaries(Fat File)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构总览-1"><span class="toc-number">3.1.</span> <span class="toc-text">结构总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fat-Header"><span class="toc-number">3.2.</span> <span class="toc-text">Fat Header:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MachO-File-1"><span class="toc-number">3.3.</span> <span class="toc-text">MachO File 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MachO-File-2"><span class="toc-number">3.4.</span> <span class="toc-text">MachO File 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MachO-File-n"><span class="toc-number">3.5.</span> <span class="toc-text">MachO File n</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scripts-Image"><span class="toc-number">4.</span> <span class="toc-text">Scripts Image</span></a></li></ol>
 		
@@ -350,22 +350,22 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MacOS-iOS上的可执行二进制文件格式"><span class="toc-number">1.</span> <span class="toc-text">MacOS/iOS上的可执行二进制文件格式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MachO文件格式"><span class="toc-number">2.</span> <span class="toc-text">MachO文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构总览"><span class="toc-number">2.1.</span> <span class="toc-text">结构总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-MachO-Header"><span class="toc-number">2.2.</span> <span class="toc-text">1. MachO Header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Load-Commands"><span class="toc-number">2.3.</span> <span class="toc-text">2. Load Commands</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-SEGMENT"><span class="toc-number">2.3.1.</span> <span class="toc-text">. LC_SEGMENT</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SECTION"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">SECTION</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-LOAD-DYLINER"><span class="toc-number">2.3.2.</span> <span class="toc-text">. LC_LOAD_DYLINER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-CODE-SIGNATURE"><span class="toc-number">2.3.3.</span> <span class="toc-text">. LC_CODE_SIGNATURE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC-MAIN"><span class="toc-number">2.3.4.</span> <span class="toc-text">. LC_MAIN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-…-gt-其他命令就暂不作记录了"><span class="toc-number">2.3.5.</span> <span class="toc-text">&lt;…&gt;. 其他命令就暂不作记录了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-DATA区"><span class="toc-number">2.4.</span> <span class="toc-text">3. DATA区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Section-TEXT"><span class="toc-number">2.4.1.</span> <span class="toc-text">. Section(__TEXT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Section-DATA"><span class="toc-number">2.4.2.</span> <span class="toc-text">. Section(__DATA)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-Table-Info"><span class="toc-number">2.4.3.</span> <span class="toc-text">. Symbol Table Info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-Symbol-Table-Info"><span class="toc-number">2.4.4.</span> <span class="toc-text">. Dynamic Symbol Table Info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-Loader-Info"><span class="toc-number">2.4.5.</span> <span class="toc-text">. Dynamic Loader Info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String-Table"><span class="toc-number">2.4.6.</span> <span class="toc-text">. String Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-Signature"><span class="toc-number">2.4.7.</span> <span class="toc-text">. Code Signature</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#——"><span class="toc-number">2.5.</span> <span class="toc-text">——-</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Universal-Binaries-Fat-File"><span class="toc-number">3.</span> <span class="toc-text">Universal Binaries(Fat File)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构总览-1"><span class="toc-number">3.1.</span> <span class="toc-text">结构总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fat-Header"><span class="toc-number">3.2.</span> <span class="toc-text">Fat Header:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MachO-File-1"><span class="toc-number">3.3.</span> <span class="toc-text">MachO File 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MachO-File-2"><span class="toc-number">3.4.</span> <span class="toc-text">MachO File 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MachO-File-n"><span class="toc-number">3.5.</span> <span class="toc-text">MachO File n</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scripts-Image"><span class="toc-number">4.</span> <span class="toc-text">Scripts Image</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -374,7 +374,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -403,7 +403,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -411,7 +411,7 @@
 			
 		
 			
-				<li><a href="/tags/SSL解密/" title="SSL解密">SSL解密<sup>1</sup></a></li>
+				<li><a href="/tags/memory-RWX/" title="memory-RWX">memory-RWX<sup>1</sup></a></li>
 			
 		
 			
@@ -419,7 +419,11 @@
 			
 		
 			
-				<li><a href="/tags/MachO格式/" title="MachO格式">MachO格式<sup>1</sup></a></li>
+				<li><a href="/tags/fmt攻击/" title="fmt攻击">fmt攻击<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/frida/" title="frida">frida<sup>1</sup></a></li>
 			
 		
 			
@@ -427,19 +431,19 @@
 			
 		
 			
+				<li><a href="/tags/Mac-IDA/" title="Mac IDA">Mac IDA<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/writeup/" title="writeup">writeup<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/fmt攻击/" title="fmt攻击">fmt攻击<sup>1</sup></a></li>
+				<li><a href="/tags/MachO格式/" title="MachO格式">MachO格式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/memory-RWX/" title="memory-RWX">memory-RWX<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Mac-IDA/" title="Mac IDA">Mac IDA<sup>1</sup></a></li>
+				<li><a href="/tags/SSL解密/" title="SSL解密">SSL解密<sup>1</sup></a></li>
 			
 		
 			
@@ -454,16 +458,12 @@
 				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/frida/" title="frida">frida<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -749,7 +749,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
