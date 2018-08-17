@@ -15,32 +15,32 @@ Author: Hexploitable
 Name: memscan
 
 Package: com.hoooook.qqstoryhelper
-Version: 0.0.1-4+debug
+Version: 0.0.1-5+debug
 Architecture: iphoneos-arm
 Maintainer: hooooooooook
 Installed-Size: 2152
 Depends: mobilesubstrate
-Filename: debs/com.hoooook.qqstoryhelper_0.0.1-4_iphoneos-arm.deb
-Size: 410098
-MD5sum: 6496881bb5dd77abdcceb010d46a375c
-SHA1: 5246099b4972b8f60cda89b96bd1b13b3708abc3
-SHA256: 2f866cd0a86eaa6df54b294ef6a51979ca12fd189ad1c6508d5b2527e00f361a
+Filename: debs/com.hoooook.qqstoryhelper_0.0.1-5+debug_iphoneos-arm.deb
+Size: 410468
+MD5sum: 1e437634297bbf6d0a421155c9dd7416
+SHA1: 63a4a10d00b157ba24d61c1ac65631626639f23d
+SHA256: 40ac55d674d40953d6ef83279ae923008dd196d818e6d441cfe1b58b004c75fd
 Section: Tweaks
 Description: 适用于iOS 64位QQ7.5.5版本的自动抢红包插件
 Author: hooooooooook
 Name: QQStoryHelper
 
 Package: com.hoooook.timstoryhelper
-Version: 0.0.1-20+debug
+Version: 0.0.1-22+debug
 Architecture: iphoneos-arm
 Maintainer: hooooooooook
 Installed-Size: 1992
 Depends: mobilesubstrate
-Filename: debs/com.hoooook.timstoryhelper_0.0.1-20_iphoneos-arm.deb
-Size: 379218
-MD5sum: 30f29e3db995a8450b0a438fdbbd0296
-SHA1: 8d8edb1b36a0f0f4299c3b7e6d1f8d772a6378ef
-SHA256: 8c4f3058d177bfbfcdadc7f306b1b944d18cbbfecbe6f1a66d2052b90213ed7b
+Filename: debs/com.hoooook.timstoryhelper_0.0.1-22+debug_iphoneos-arm.deb
+Size: 379496
+MD5sum: 3e7b8c80f0375ea5859bf843338de54f
+SHA1: 438e294fe2b2d7c4565c19f5d591b5635ff11208
+SHA256: fdff538e7282a7d107c3c9c66b4c9830800a6c90139c00ab915a3842ac781f0d
 Section: Tweaks
 Description: 适用于iOS 64位 TIM 2.2.5版本的自动抢红包插件
 Author: hooooooooook
@@ -48,16 +48,16 @@ Contact: gloxec.github.io
 Name: TIMStoryHelper
 
 Package: com.hoooook.timstoryhelper-2-7
-Version: 0.0.1-2+debug
+Version: 0.0.1-3+debug
 Architecture: iphoneos-arm
 Maintainer: hooooooooook
 Installed-Size: 1992
 Depends: mobilesubstrate
-Filename: debs/com.hoooook.timstoryhelper-2-7_0.0.1-2+debug_iphoneos-arm.deb
-Size: 380190
-MD5sum: 578d9f8bafb755c6ce896e0845cd584f
-SHA1: 732498efd69d2a2dbc29ea7324860df386704585
-SHA256: b8df8d6301add379e1b347aa0fa20de344f4c97b0136dca3f4d9b65406154f4a
+Filename: debs/com.hoooook.timstoryhelper-2-7_0.0.1-3+debug_iphoneos-arm.deb
+Size: 379900
+MD5sum: bbc6d18fd3228df25490be4e10f5d981
+SHA1: d52aa1b71cd9726030baf2fad77047fc87b4adb3
+SHA256: fe7024c6ed851ebb81cb3aea4d9605f349ea2ac1c6a8fad2eb3a9126df18d7a1
 Section: Tweaks
 Description: 适用于iOS 64位 TIM 2.2.7版本的自动抢红包插件
 Author: hooooooooook
