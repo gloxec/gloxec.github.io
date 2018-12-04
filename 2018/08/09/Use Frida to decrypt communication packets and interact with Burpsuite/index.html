@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="H o o k | 潜心习安全">H o o k | 潜心习安全</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +68,7 @@
  					
 						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
 							<label>Search</label>
-						<input name="s" type="hidden" value=  ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						<input name="s" type="hidden" value=  ><input type="text" name="q" size="30" placeholder="Search"><br>
 						</form>
 					
 					</li>
@@ -90,14 +90,14 @@
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-09T03:15:37.000Z" itemprop="datePublished"> 发表于 2018-08-09</time>
+    <time datetime="2018-08-09T03:15:37.000Z" itemprop="datePublished"> Published 2018-08-09</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Frida解密通信数据包并与Burpsuite交互"><span class="toc-number">1.</span> <span class="toc-text">使用Frida解密通信数据包并与Burpsuite交互</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#message消息"><span class="toc-number">1.1.</span> <span class="toc-text">message消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻塞等待输入交互"><span class="toc-number">1.2.</span> <span class="toc-text">阻塞等待输入交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#burpsuite交互"><span class="toc-number">1.3.</span> <span class="toc-text">burpsuite交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行截图"><span class="toc-number">1.4.</span> <span class="toc-text">运行截图</span></a></li></ol></li></ol>
 		
@@ -146,6 +146,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2018/12/04/LFI 2 RCE/" title="LFI 2 RCE">
+  <strong>上一篇：</strong><br/>
+  <span>
+  LFI 2 RCE</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2018/05/04/decryptedSSLpackets/"  title="decryptedSSLpackets">
@@ -174,22 +182,22 @@
   </script>
 </section>
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Frida解密通信数据包并与Burpsuite交互"><span class="toc-number">1.</span> <span class="toc-text">使用Frida解密通信数据包并与Burpsuite交互</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#message消息"><span class="toc-number">1.1.</span> <span class="toc-text">message消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻塞等待输入交互"><span class="toc-number">1.2.</span> <span class="toc-text">阻塞等待输入交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#burpsuite交互"><span class="toc-number">1.3.</span> <span class="toc-text">burpsuite交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行截图"><span class="toc-number">1.4.</span> <span class="toc-text">运行截图</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -198,11 +206,15 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
 			<li><a href="/categories/Mac/" title="Mac">Mac<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
 		  
 		
 		  
@@ -227,7 +239,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -235,7 +247,7 @@
 			
 		
 			
-				<li><a href="/tags/Mac-IDA/" title="Mac IDA">Mac IDA<sup>1</sup></a></li>
+				<li><a href="/tags/memory-RWX/" title="memory-RWX">memory-RWX<sup>1</sup></a></li>
 			
 		
 			
@@ -255,11 +267,11 @@
 			
 		
 			
-				<li><a href="/tags/fmt攻击/" title="fmt攻击">fmt攻击<sup>1</sup></a></li>
+				<li><a href="/tags/Mac-IDA/" title="Mac IDA">Mac IDA<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/memory-RWX/" title="memory-RWX">memory-RWX<sup>1</sup></a></li>
+				<li><a href="/tags/fmt攻击/" title="fmt攻击">fmt攻击<sup>1</sup></a></li>
 			
 		
 			
@@ -282,12 +294,16 @@
 				<li><a href="/tags/writeup/" title="writeup">writeup<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/LFI/" title="LFI">LFI<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -573,7 +589,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
