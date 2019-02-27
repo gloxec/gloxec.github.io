@@ -96,3 +96,19 @@ Description: Blackbox tool to disable SSL certificate validation - including cer
 Author: Alban Diquet <nabla.c0d3@gmail.com>
 Name: SSL Kill Switch 2
 
+Package: com.tt.wechathelper
+Version: 0.0.1-3+debug
+Architecture: iphoneos-arm
+Maintainer: tt
+Installed-Size: 2320
+Depends: mobilesubstrate
+Filename: debs/com.tt.wechathelper_0.0.1-3+debug_iphoneos-arm.deb
+Size: 425230
+MD5sum: 1000788d1f9162e596db0a7155204340
+SHA1: 435738266efa2d1e3a3de7e21f6fb15bb4648246
+SHA256: 7ff7eded59dd19bc479911d1eba740f28ec8024ba9880dd54f3b089e55d8c666
+Section: Tweaks
+Description: 微信自动抢红包插件
+Author: tt
+Name: wechathelper
+
