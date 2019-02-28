@@ -97,16 +97,16 @@ Author: Alban Diquet <nabla.c0d3@gmail.com>
 Name: SSL Kill Switch 2
 
 Package: com.tt.wechathelper
-Version: 0.0.1-5+debug
+Version: 0.0.1-14+debug
 Architecture: iphoneos-arm
 Maintainer: tt
-Installed-Size: 1892
+Installed-Size: 1780
 Depends: mobilesubstrate
-Filename: debs/com.tt.wechathelper_0.0.1-5+debug_iphoneos-arm.deb
-Size: 342546
-MD5sum: 29f03658bf7eb68f2977eb13476ab308
-SHA1: 56e93c8b493086ca354dbe0f19223776b564a4a6
-SHA256: 7b6760397f5bb79e8710f022cb824ec976bbd43ada21c86600923d40c3c52203
+Filename: debs/com.tt.wechathelper_0.0.1-14+debug_iphoneos-arm.deb
+Size: 322862
+MD5sum: b6e792134f389c78ac57db7e72ef6fe3
+SHA1: b1890b71d71623bab48e0b419a880f09674e9369
+SHA256: 16c4fc2649e614cef4662c126368755132e8ebe102e843c0452c90250aa19a21
 Section: Tweaks
 Description: 微信自动抢红包插件
 Author: tt
