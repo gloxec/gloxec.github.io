@@ -113,16 +113,16 @@ Author: tt
 Name: wechatMsgRevokeHelper
 
 Package: com.tt.wechathelper
-Version: 0.0.1-19+debug
+Version: 0.0.1-51+debug
 Architecture: iphoneos-arm
 Maintainer: tt
-Installed-Size: 1780
+Installed-Size: 2160
 Depends: mobilesubstrate
-Filename: debs/com.tt.wechathelper_0.0.1-19+debug_iphoneos-arm.deb
-Size: 318760
-MD5sum: 75fda0629990b0a2ae944a6e6e17c322
-SHA1: de75ab13dcd47a5833b2c52c845980779ded8a96
-SHA256: ca3a7cc211e588bb9bfa25352c363929da8e7fbad3906f8cb0aa5ef1057e82b4
+Filename: debs/com.tt.wechathelper_0.0.1-51+debug_iphoneos-arm.deb
+Size: 378724
+MD5sum: e0ad5693d10acc1120d9caa57d1d56c1
+SHA1: c3e3014e757decc721dcc9fc0534e4152b4ebfa6
+SHA256: 54a64fdf233a3968ec827d9d851bf877ceab08a507ccd75bf3377bef90eab14a
 Section: Tweaks
 Description: 微信自动抢红包插件
 Author: tt
