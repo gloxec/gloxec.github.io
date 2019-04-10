@@ -172,7 +172,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
+  /*id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}"*/
+    id: "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
