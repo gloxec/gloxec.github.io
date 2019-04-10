@@ -1,0 +1,621 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>operation not permitted with root | H o o k | 潜心习安全</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="hook">
+    
+
+    
+    <meta name="description" content="operation not permitted在Mac下root权限操作仍旧得到”operation not permitted”提示 重启按住Command+R进入恢复模式csrutil disable再重启进入系统即可解决。详细原因是…">
+<meta name="keywords" content="Mac SIP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="operation not permitted with root">
+<meta property="og:url" content="https://gloxec.github.com/2017/05/04/operation not permitted with root/index.html">
+<meta property="og:site_name" content="H o o k | 潜心习安全">
+<meta property="og:description" content="operation not permitted在Mac下root权限操作仍旧得到”operation not permitted”提示 重启按住Command+R进入恢复模式csrutil disable再重启进入系统即可解决。详细原因是…">
+<meta property="og:updated_time" content="2018-01-13T14:40:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="operation not permitted with root">
+<meta name="twitter:description" content="operation not permitted在Mac下root权限操作仍旧得到”operation not permitted”提示 重启按住Command+R进入恢复模式csrutil disable再重启进入系统即可解决。详细原因是…">
+
+    
+    <link rel="alternative" href="/atom.xml" title="H o o k | 潜心习安全" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="H o o k | 潜心习安全">H o o k | 潜心习安全</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:gloxec.github.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/05/04/operation not permitted with root/" title="operation not permitted with root" itemprop="url">operation not permitted with root</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-04T14:28:37.000Z" itemprop="datePublished"> Published 2017-05-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#operation-not-permitted"><span class="toc-number">1.</span> <span class="toc-text">operation not permitted</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SIP"><span class="toc-number">2.</span> <span class="toc-text">SIP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-更改目录"><span class="toc-number">2.1.</span> <span class="toc-text">1.更改目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-关闭SIP"><span class="toc-number">2.2.</span> <span class="toc-text">2.关闭SIP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#csrutil用法"><span class="toc-number">2.2.1.</span> <span class="toc-text">csrutil用法</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="operation-not-permitted"><a href="#operation-not-permitted" class="headerlink" title="operation not permitted"></a>operation not permitted</h1><p>在Mac下root权限操作仍旧得到”operation not permitted”提示</p>
+<p>重启按住<code>Command+R</code>进入恢复模式<br><code>csrutil disable</code><br>再重启进入系统即可解决。<br>详细原因是…</p>
+<a id="more"></a>
+<h1 id="SIP"><a href="#SIP" class="headerlink" title="SIP"></a>SIP</h1><p>在Mac OS X 11以后，就算是root用户，去操作一些系统目录，也会收到”operation not permitted”提示。<br>例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s xxxx /usr/xxx</span><br></pre></td></tr></table></figure>
+<p>等等敏感命令</p>
+<p>这是因为<code>El Capitan</code>引入了<code>Rootless</code>机制<br>这里有两种解决办法：</p>
+<h2 id="1-更改目录"><a href="#1-更改目录" class="headerlink" title="1.更改目录"></a>1.更改目录</h2><p>改变操作目录，比如把链接到<code>/usr/bin</code>的操作改为<code>/usr/local/bin</code>这种同效果操作。</p>
+<h2 id="2-关闭SIP"><a href="#2-关闭SIP" class="headerlink" title="2.关闭SIP"></a>2.关闭SIP</h2><p>看到别人说Rootless机制将成为对抗恶意程序的最后防线，所以这种办法自己选择吧。</p>
+<p>重启按住<code>Commadn+R</code>进入恢复模式<br>运行<code>csrutil disable</code>关闭SIP</p>
+<p>要恢复的话<br><code>csrutil enable</code></p>
+<h3 id="csrutil用法"><a href="#csrutil用法" class="headerlink" title="csrutil用法"></a>csrutil用法</h3><p>csrutil命令参数格式：</p>
+<p>csrutil enable [–without kext | fs | debug | dtrace | nvram][–no-internal]</p>
+<p>禁用：<code>csrutil disable</code></p>
+<blockquote>
+<p>（等同于csrutil enable –without kext –without fs –without debug –without dtrace –without nvram）</p>
+</blockquote>
+<p>其中各个开关，意义如下：</p>
+<blockquote>
+<p>B0: [kext] 允许加载不受信任的kext（与已被废除的kext-dev-mode=1等效）<br>B1: [fs] 解锁文件系统限制<br>B2: [debug] 允许task_for_pid()调用<br>B3: [n/a] 允许内核调试 （官方的csrutil工具无法设置此位）<br>B4: [internal] Apple内部保留位（csrutil默认会设置此位，实际不会起作用。设置与否均可）<br>B5: [dtrace] 解锁dtrace限制<br>B6: [nvram] 解锁NVRAM限制<br>B7: [n/a] 允许设备配置（新增，具体作用暂时未确定）</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Mac/">Mac</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Mac-SIP/">Mac SIP</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://gloxec.github.com/2017/05/04/operation not permitted with root/" data-title="operation not permitted with root | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/05/07/execute shellcode with mmap and mprotect/" title="execute shellcode with mmap and mprotect">
+  <strong>上一篇：</strong><br/>
+  <span>
+  execute shellcode with mmap and mprotect</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/05/03/Binary Format/"  title="Binary Format">
+ <strong>下一篇：</strong><br/> 
+ <span>Binary Format
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <script>
+  var gitment = new Gitment({
+    id: window.location.pathname,
+    owner: 'gloxec',
+    repo: 'blog.comment.repo',
+    oauth: {
+      client_id: 'bfcfaca64e8f5e195f6e',
+      client_secret: 'e207a42d1b3165bcc2b07d34eb956fc5e4a0024b',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#operation-not-permitted"><span class="toc-number">1.</span> <span class="toc-text">operation not permitted</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SIP"><span class="toc-number">2.</span> <span class="toc-text">SIP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-更改目录"><span class="toc-number">2.1.</span> <span class="toc-text">1.更改目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-关闭SIP"><span class="toc-number">2.2.</span> <span class="toc-text">2.关闭SIP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#csrutil用法"><span class="toc-number">2.2.1.</span> <span class="toc-text">csrutil用法</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="gloxec" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ctf/" title="ctf">ctf<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/misc/" title="misc">misc<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/pwn/" title="pwn">pwn<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ret2dl攻击/" title="ret2dl攻击">ret2dl攻击<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-IDA/" title="Mac IDA">Mac IDA<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fmt攻击/" title="fmt攻击">fmt攻击<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数签名/" title="函数签名">函数签名<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/frida/" title="frida">frida<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/debugger/" title="debugger">debugger<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SSL解密/" title="SSL解密">SSL解密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/memory-RWX/" title="memory-RWX">memory-RWX<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-KDBG/" title="Mac KDBG">Mac KDBG<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-SIP/" title="Mac SIP">Mac SIP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MachO格式/" title="MachO格式">MachO格式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/writeup/" title="writeup">writeup<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LFI/" title="LFI">LFI<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://bestwing.me" target="_blank" title="一个面向程序员交流分享的新一代社区">Swing</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.bodkin.ren" target="_blank" title="老锥">老锥</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://whereisk0shl.top" target="_blank" title="k0shl">k0shl</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.imjun.net" target="_blank" title="杨君">杨君</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://4ch12dy.site" target="_blank" title="小学生">小学生</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://hello-sherlock.github.io" target="_blank" title="凌迟">凌迟</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://drops.org.cn" target="_blank" title="drop">drop</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pcat.cnblogs.com" target="_blank" title="pcat">pcat</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://peterpan980927.cn" target="_blank" title="peterpan">peterpan</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 如果想 <br/>
+			一切都还来的及</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:gloxec@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="hook">hook</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

