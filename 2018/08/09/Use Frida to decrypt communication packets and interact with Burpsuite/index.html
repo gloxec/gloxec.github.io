@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
-<html >
-<head>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
     <title>Use Frida to decrypt communication packets and interact with Burpsuite | H o o k | 潜心习安全</title>
@@ -18,6 +18,7 @@
 <meta property="og:url" content="https://gloxec.github.com/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
 <meta property="og:description" content="使用Frida解密通信数据包并与Burpsuite交互分析App时经常遇到网络通信数据包加密的情况，逆向分析后虽然可以写出解密前信息提示或者修改的插件，但是无法动态修改数据包中指定字段，对于其他自动化测试极为不方便。这里可以使用frida编写插件让其与burpsuite进行交互。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://gloxec.github.com/images/Use%20Frida%20to%20decrypt%20communication%20packets%20and%20interact%20with%20Burpsuite/1.png">
 <meta property="og:image" content="https://gloxec.github.com/images/Use%20Frida%20to%20decrypt%20communication%20packets%20and%20interact%20with%20Burpsuite/2.png">
 <meta property="og:updated_time" content="2018-08-15T09:47:11.000Z">
@@ -38,14 +39,14 @@
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
   <body>
     <header>
       
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"></a>
 			</div>
 			
 			<div id="textlogo">
@@ -68,13 +69,13 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
 					</li>
 				</ul>
-			</nav>			
+			</ul></nav>			
 </div>
     </header>
     <div id="container">
@@ -90,7 +91,7 @@
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
-  <p class="article-time">
+  </p><p class="article-time">
     <time datetime="2018-08-09T03:15:37.000Z" itemprop="datePublished"> Published 2018-08-09</time>
     
   </p>
@@ -111,7 +112,7 @@
 <h2 id="阻塞等待输入交互"><a href="#阻塞等待输入交互" class="headerlink" title="阻塞等待输入交互"></a>阻塞等待输入交互</h2><p>在注入的插件脚本中，可使用recv.wait来阻塞进程，等待返回消息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Interceptor.attach(....., &#123;</span><br><span class="line">    onEnter: function(args) &#123;</span><br><span class="line">        send(&apos;needValue&apos;);</span><br><span class="line">        var op = recv(&apos;returnValue&apos;, function(value) &#123;</span><br><span class="line">            args[0] = value.payload;</span><br><span class="line">        &#125;</span><br><span class="line">        op.wait();</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="burpsuite交互"><a href="#burpsuite交互" class="headerlink" title="burpsuite交互"></a>burpsuite交互</h2><p>通过上面的方法，已经可以完成注入App的数据阻塞等待动态修改了，接着将数据修改来源绑定到burpsuite上<br>这里可以将python端on_message中收发的消息数据使用http方式发送到burpsuite中，再等待burpsuite中修改后返回的结果。所以python端创建一个简单的http服务器，负责与burpsuite通信即可。<br>我在这里使用了HTTPServer创建了个本地服务器，监听28080端口，接着负责处理frida的on_message中使用requests模块与burpsuite 28081端口进行http通信，burpsuite proxy模块中设置监听127.0.0.1:28080地址，数据发送到127.0.0.1:28081地址。</p>
-<h2 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h2><p><img src="/images/Use Frida to decrypt communication packets and interact with Burpsuite/1.png" alt=""><br><img src="/images/Use Frida to decrypt communication packets and interact with Burpsuite/2.png" alt=""></p>
+<h2 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h2><p><img src="/images/Use Frida to decrypt communication packets and interact with Burpsuite/1.png" alt><br><img src="/images/Use Frida to decrypt communication packets and interact with Burpsuite/2.png" alt></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -134,7 +135,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/" data-title="Use Frida to decrypt communication packets and interact with Burpsuite | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/" data-title="Use Frida to decrypt communication packets and interact with Burpsuite | H o o k | 潜心习安全" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,9 +148,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
+ <div class="prev">
  <a href="/2018/12/04/LFI 2 RCE/" title="LFI 2 RCE">
-  <strong>上一篇：</strong><br/>
+  <strong>上一篇：</strong><br>
   <span>
   LFI 2 RCE</span>
 </a>
@@ -157,8 +158,8 @@
 
 
 <div class="next">
-<a href="/2018/05/04/decryptedSSLpackets/"  title="decryptedSSLpackets">
- <strong>下一篇：</strong><br/> 
+<a href="/2018/05/04/decryptedSSLpackets/" title="decryptedSSLpackets">
+ <strong>下一篇：</strong><br> 
  <span>decryptedSSLpackets
 </span>
 </a>
@@ -169,10 +170,10 @@
 	<section id="comments" class="comment">
   <div id="blog_comment"></div>
   <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: window.location.pathname,
+    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
@@ -201,7 +202,7 @@
 <div class="github-card">
 <p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
 
 
@@ -368,7 +369,7 @@
 </aside>
 </div>
     </div>
-    <footer><div id="footer" >
+    <footer><div id="footer">
 	
 	<div class="line">
 		<span></span>
@@ -377,11 +378,11 @@
 	
 	
 	<section class="info">
-		<p> 如果想 <br/>
+		<p> 如果想 <br>
 			一切都还来的及</p>
 	</section>
 	 
-	<div class="social-font" class="clearfix">
+	<div class="social-font">
 		
 		
 		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
@@ -591,7 +592,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

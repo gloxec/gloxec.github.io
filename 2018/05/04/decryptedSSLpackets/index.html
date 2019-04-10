@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
-<html >
-<head>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
     <title>decryptedSSLpackets | H o o k | 潜心习安全</title>
@@ -18,6 +18,7 @@
 <meta property="og:url" content="https://gloxec.github.com/2018/05/04/decryptedSSLpackets/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
 <meta property="og:description" content="wireshark中对SSL/TLS数据包解密 Master-Secret log解密，常用的解密方法，使用较为方便. RSA key解密(PEM或PKCS12格式).  这里主要记录下RSA key的解密方式，今天遇到了从流量包中提取到RSA private key证书的情况，然后利用证书来解密。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://gloxec.github.com/images/decryptedSSLpackets/1.png">
 <meta property="og:image" content="https://gloxec.github.com/images/decryptedSSLpackets/2.png">
 <meta property="og:updated_time" content="2018-05-04T08:40:25.000Z">
@@ -38,14 +39,14 @@
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
   <body>
     <header>
       
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"></a>
 			</div>
 			
 			<div id="textlogo">
@@ -68,13 +69,13 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
 					</li>
 				</ul>
-			</nav>			
+			</ul></nav>			
 </div>
     </header>
     <div id="container">
@@ -90,7 +91,7 @@
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
-  <p class="article-time">
+  </p><p class="article-time">
     <time datetime="2018-05-04T03:15:37.000Z" itemprop="datePublished"> Published 2018-05-04</time>
     
   </p>
@@ -110,8 +111,8 @@
 </ol>
 <p>这里主要记录下RSA key的解密方式，今天遇到了从流量包中提取到RSA private key证书的情况，然后利用证书来解密。</p>
 <a id="more"></a>
-<h2 id="RSA-private-key的添加方法"><a href="#RSA-private-key的添加方法" class="headerlink" title="RSA private key的添加方法"></a>RSA private key的添加方法</h2><p>在wireshark配置中选择<code>协议</code>,在SSL下编辑<code>RSA keys list</code><br>分别填写<code>通信目的IP</code>, <code>端口</code>, <code>协议</code>, <code>Key File</code>, <code>密码</code><br>这里<code>IP</code>,<code>端口</code>支持<code>0</code>通配, {<code>0.0.0.0</code> : <code>0</code>}<br><code>Key File</code>: 私钥证书文件，这里必须保证证书格式为PEM或者PKCS12<br><code>密码</code>: 若证书本身自带密码，需要填写<br><img src="/images/decryptedSSLpackets/1.png" alt=""></p>
-<h2 id="解密效果"><a href="#解密效果" class="headerlink" title="解密效果"></a>解密效果</h2><p>可以看到SSL帧下有了被解密的内容<code>Decrypted SSL Data</code><br><img src="/images/decryptedSSLpackets/2.png" alt=""></p>
+<h2 id="RSA-private-key的添加方法"><a href="#RSA-private-key的添加方法" class="headerlink" title="RSA private key的添加方法"></a>RSA private key的添加方法</h2><p>在wireshark配置中选择<code>协议</code>,在SSL下编辑<code>RSA keys list</code><br>分别填写<code>通信目的IP</code>, <code>端口</code>, <code>协议</code>, <code>Key File</code>, <code>密码</code><br>这里<code>IP</code>,<code>端口</code>支持<code>0</code>通配, {<code>0.0.0.0</code> : <code>0</code>}<br><code>Key File</code>: 私钥证书文件，这里必须保证证书格式为PEM或者PKCS12<br><code>密码</code>: 若证书本身自带密码，需要填写<br><img src="/images/decryptedSSLpackets/1.png" alt></p>
+<h2 id="解密效果"><a href="#解密效果" class="headerlink" title="解密效果"></a>解密效果</h2><p>可以看到SSL帧下有了被解密的内容<code>Decrypted SSL Data</code><br><img src="/images/decryptedSSLpackets/2.png" alt></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -134,7 +135,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2018/05/04/decryptedSSLpackets/" data-title="decryptedSSLpackets | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2018/05/04/decryptedSSLpackets/" data-title="decryptedSSLpackets | H o o k | 潜心习安全" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,9 +148,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
+ <div class="prev">
  <a href="/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/" title="Use Frida to decrypt communication packets and interact with Burpsuite">
-  <strong>上一篇：</strong><br/>
+  <strong>上一篇：</strong><br>
   <span>
   Use Frida to decrypt communication packets and interact with Burpsuite</span>
 </a>
@@ -157,8 +158,8 @@
 
 
 <div class="next">
-<a href="/2018/04/12/roputils/"  title="roputils">
- <strong>下一篇：</strong><br/> 
+<a href="/2018/04/12/roputils/" title="roputils">
+ <strong>下一篇：</strong><br> 
  <span>roputils
 </span>
 </a>
@@ -169,10 +170,10 @@
 	<section id="comments" class="comment">
   <div id="blog_comment"></div>
   <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: window.location.pathname,
+    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
@@ -201,7 +202,7 @@
 <div class="github-card">
 <p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
 
 
@@ -368,7 +369,7 @@
 </aside>
 </div>
     </div>
-    <footer><div id="footer" >
+    <footer><div id="footer">
 	
 	<div class="line">
 		<span></span>
@@ -377,11 +378,11 @@
 	
 	
 	<section class="info">
-		<p> 如果想 <br/>
+		<p> 如果想 <br>
 			一切都还来的及</p>
 	</section>
 	 
-	<div class="social-font" class="clearfix">
+	<div class="social-font">
 		
 		
 		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
@@ -591,7 +592,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

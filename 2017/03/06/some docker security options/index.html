@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
-<html >
-<head>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
     <title>some docker security options | H o o k | 潜心习安全</title>
@@ -18,6 +18,7 @@
 <meta property="og:url" content="https://gloxec.github.com/2017/03/06/some docker security options/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
 <meta property="og:description" content="在搭建pwn环境时遇到的一些问题原本是用虚拟机来进行pwn相关的调试开发等，后来因为固态太小，实在没地放了，就才转向docker。这里记录下使用时遇到的一些问题。">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-01-13T14:36:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="some docker security options">
@@ -35,14 +36,14 @@
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
   <body>
     <header>
       
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"></a>
 			</div>
 			
 			<div id="textlogo">
@@ -65,13 +66,13 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
 					</li>
 				</ul>
-			</nav>			
+			</ul></nav>			
 </div>
     </header>
     <div id="container">
@@ -87,7 +88,7 @@
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
-  <p class="article-time">
+  </p><p class="article-time">
     <time datetime="2017-03-06T08:20:37.000Z" itemprop="datePublished"> Published 2017-03-06</time>
     
   </p>
@@ -127,7 +128,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2017/03/06/some docker security options/" data-title="some docker security options | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2017/03/06/some docker security options/" data-title="some docker security options | H o o k | 潜心习安全" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,9 +141,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
+ <div class="prev">
  <a href="/2017/04/16/cstc2017/" title="cstc2017 wp">
-  <strong>上一篇：</strong><br/>
+  <strong>上一篇：</strong><br>
   <span>
   cstc2017 wp</span>
 </a>
@@ -150,8 +151,8 @@
 
 
 <div class="next">
-<a href="/2017/03/05/exploit without info leak - 2/"  title="exploit without info leak - 2">
- <strong>下一篇：</strong><br/> 
+<a href="/2017/03/05/exploit without info leak - 2/" title="exploit without info leak - 2">
+ <strong>下一篇：</strong><br> 
  <span>exploit without info leak - 2
 </span>
 </a>
@@ -162,10 +163,10 @@
 	<section id="comments" class="comment">
   <div id="blog_comment"></div>
   <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: window.location.pathname,
+    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
@@ -194,7 +195,7 @@
 <div class="github-card">
 <p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
 
 
@@ -361,7 +362,7 @@
 </aside>
 </div>
     </div>
-    <footer><div id="footer" >
+    <footer><div id="footer">
 	
 	<div class="line">
 		<span></span>
@@ -370,11 +371,11 @@
 	
 	
 	<section class="info">
-		<p> 如果想 <br/>
+		<p> 如果想 <br>
 			一切都还来的及</p>
 	</section>
 	 
-	<div class="social-font" class="clearfix">
+	<div class="social-font">
 		
 		
 		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
@@ -584,7 +585,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

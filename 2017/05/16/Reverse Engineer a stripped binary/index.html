@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
-<html >
-<head>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
     <title>Reverse Engineer a stripped binary | H o o k | 潜心习安全</title>
@@ -18,6 +18,7 @@
 <meta property="og:url" content="https://gloxec.github.com/2017/05/16/Reverse Engineer a stripped binary/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
 <meta property="og:description" content="逆向分析静态编译并裁减了符号表的二进制文件做题时遇到了这类文件，记录记录恢复函数名过程。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://gloxec.github.com/images/Reverse%20Engineer%20a%20stripped%20binary/1.png">
 <meta property="og:image" content="https://gloxec.github.com/images/Reverse%20Engineer%20a%20stripped%20binary/2.png">
 <meta property="og:image" content="https://gloxec.github.com/images/Reverse%20Engineer%20a%20stripped%20binary/3.png">
@@ -41,14 +42,14 @@
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
   <body>
     <header>
       
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"></a>
 			</div>
 			
 			<div id="textlogo">
@@ -71,13 +72,13 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
 					</li>
 				</ul>
-			</nav>			
+			</ul></nav>			
 </div>
     </header>
     <div id="container">
@@ -93,7 +94,7 @@
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
-  <p class="article-time">
+  </p><p class="article-time">
     <time datetime="2017-05-16T15:25:37.000Z" itemprop="datePublished"> Published 2017-05-16</time>
     
   </p>
@@ -108,9 +109,9 @@
 		</div>
 		
 		<h1 id="逆向分析静态编译并裁减了符号表的二进制文件"><a href="#逆向分析静态编译并裁减了符号表的二进制文件" class="headerlink" title="逆向分析静态编译并裁减了符号表的二进制文件"></a>逆向分析静态编译并裁减了符号表的二进制文件</h1><p>做题时遇到了这类文件，记录记录恢复函数名过程。<br><a id="more"></a></p>
-<h2 id="原程序结构"><a href="#原程序结构" class="headerlink" title="原程序结构"></a>原程序结构</h2><p>分析原程序时可以看到一堆未识别的函数，并且未调用任何动态库。<br><img src="/images/Reverse Engineer a stripped binary/1.png" alt=""></p>
-<h2 id="利用函数签名恢复函数名称"><a href="#利用函数签名恢复函数名称" class="headerlink" title="利用函数签名恢复函数名称"></a>利用函数签名恢复函数名称</h2><h3 id="lscan"><a href="#lscan" class="headerlink" title=". lscan"></a><1>. lscan</1></h3><p>使用lscan来比对引入函数量的动态库，这里可以看到libc-2.23.sig这个签名库包含了11.29%的信息<br><img src="/images/Reverse Engineer a stripped binary/2.png" alt=""><br>所以这里把这个签名库拷贝到IDA的sig文件夹下，使用File-&gt;Load File-&gt;FLIRT signature file功能，加载这个签名库，来识别出一些静态编译在程序中的函数。<br><img src="/images/Reverse Engineer a stripped binary/3.png" alt=""><br>虽然不多，但还是成功识别出一些函数了。<br><img src="/images/Reverse Engineer a stripped binary/4.png" alt=""></p>
-<h3 id="使用Rizzo来自己生成签名库"><a href="#使用Rizzo来自己生成签名库" class="headerlink" title=". 使用Rizzo来自己生成签名库"></a><2>. 使用Rizzo来自己生成签名库</2></h3><p>当确定静态编译使用的版本时，就可以利用这个来很方便的导出库签名，并加载到要分析的程序中去。<br>这里我使用了本地libc做了实验，虽然版本不对，但是识别出了更多的函数。<br><img src="/images/Reverse Engineer a stripped binary/5.png" alt=""></p>
+<h2 id="原程序结构"><a href="#原程序结构" class="headerlink" title="原程序结构"></a>原程序结构</h2><p>分析原程序时可以看到一堆未识别的函数，并且未调用任何动态库。<br><img src="/images/Reverse Engineer a stripped binary/1.png" alt></p>
+<h2 id="利用函数签名恢复函数名称"><a href="#利用函数签名恢复函数名称" class="headerlink" title="利用函数签名恢复函数名称"></a>利用函数签名恢复函数名称</h2><h3 id="lscan"><a href="#lscan" class="headerlink" title=". lscan"></a><1>. lscan</1></h3><p>使用lscan来比对引入函数量的动态库，这里可以看到libc-2.23.sig这个签名库包含了11.29%的信息<br><img src="/images/Reverse Engineer a stripped binary/2.png" alt><br>所以这里把这个签名库拷贝到IDA的sig文件夹下，使用File-&gt;Load File-&gt;FLIRT signature file功能，加载这个签名库，来识别出一些静态编译在程序中的函数。<br><img src="/images/Reverse Engineer a stripped binary/3.png" alt><br>虽然不多，但还是成功识别出一些函数了。<br><img src="/images/Reverse Engineer a stripped binary/4.png" alt></p>
+<h3 id="使用Rizzo来自己生成签名库"><a href="#使用Rizzo来自己生成签名库" class="headerlink" title=". 使用Rizzo来自己生成签名库"></a><2>. 使用Rizzo来自己生成签名库</2></h3><p>当确定静态编译使用的版本时，就可以利用这个来很方便的导出库签名，并加载到要分析的程序中去。<br>这里我使用了本地libc做了实验，虽然版本不对，但是识别出了更多的函数。<br><img src="/images/Reverse Engineer a stripped binary/5.png" alt></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -133,7 +134,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2017/05/16/Reverse Engineer a stripped binary/" data-title="Reverse Engineer a stripped binary | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2017/05/16/Reverse Engineer a stripped binary/" data-title="Reverse Engineer a stripped binary | H o o k | 潜心习安全" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,9 +147,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
+ <div class="prev">
  <a href="/2017/06/04/Dump ELF With Format String Vulnerability/" title="Dump ELF With Format String Vulnerability">
-  <strong>上一篇：</strong><br/>
+  <strong>上一篇：</strong><br>
   <span>
   Dump ELF With Format String Vulnerability</span>
 </a>
@@ -156,8 +157,8 @@
 
 
 <div class="next">
-<a href="/2017/05/07/execute shellcode with mmap and mprotect/"  title="execute shellcode with mmap and mprotect">
- <strong>下一篇：</strong><br/> 
+<a href="/2017/05/07/execute shellcode with mmap and mprotect/" title="execute shellcode with mmap and mprotect">
+ <strong>下一篇：</strong><br> 
  <span>execute shellcode with mmap and mprotect
 </span>
 </a>
@@ -168,10 +169,10 @@
 	<section id="comments" class="comment">
   <div id="blog_comment"></div>
   <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: window.location.pathname,
+    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
@@ -200,7 +201,7 @@
 <div class="github-card">
 <p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
 
 
@@ -367,7 +368,7 @@
 </aside>
 </div>
     </div>
-    <footer><div id="footer" >
+    <footer><div id="footer">
 	
 	<div class="line">
 		<span></span>
@@ -376,11 +377,11 @@
 	
 	
 	<section class="info">
-		<p> 如果想 <br/>
+		<p> 如果想 <br>
 			一切都还来的及</p>
 	</section>
 	 
-	<div class="social-font" class="clearfix">
+	<div class="social-font">
 		
 		
 		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
@@ -590,7 +591,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

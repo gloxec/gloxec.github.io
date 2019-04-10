@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
-<html >
-<head>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
     <title>roputils | H o o k | 潜心习安全</title>
@@ -18,6 +18,7 @@
 <meta property="og:url" content="https://gloxec.github.com/2018/04/12/roputils/index.html">
 <meta property="og:site_name" content="H o o k | 潜心习安全">
 <meta property="og:description" content="roputils体验之前rop一般都是自己找，然后拼接生成，像ret2dl这种需要伪造dl_resolve结构的，也都是自己计算各个数据段位置，一不小心就出错。最近又遇到ret2dl的问题，自己构造完数据，exp执行完一直提示DL_FIX相关的错误，在搜问题时突然发现了这个神器，可以直接套用它的模板直接生成dl_resolve解析结构，特此记录下。 好久没写日记了= =，今天记录插件时更新了下，索">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-04-12T03:52:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="roputils">
@@ -35,14 +36,14 @@
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
   <body>
     <header>
       
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"/></a>
+				<a href="/"><img src="/img/logo.png" alt="H o o k | 潜心习安全" title="H o o k | 潜心习安全"></a>
 			</div>
 			
 			<div id="textlogo">
@@ -65,13 +66,13 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
 						<input type="hidden" name="q" value="site:gloxec.github.com">
 					</form>
 					
 					</li>
 				</ul>
-			</nav>			
+			</ul></nav>			
 </div>
     </header>
     <div id="container">
@@ -87,7 +88,7 @@
        
 		<a href="/about" title="hook" target="_blank" itemprop="author">hook</a>
 		
-  <p class="article-time">
+  </p><p class="article-time">
     <time datetime="2018-04-12T03:15:37.000Z" itemprop="datePublished"> Published 2018-04-12</time>
     
   </p>
@@ -97,7 +98,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#roputils体验"><span class="toc-number">1.</span> <span class="toc-text">roputils体验</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#好久没写日记了-，今天记录插件时更新了下，索性写一波。。"><span class="toc-number">1.0.0.0.0.1.</span> <span class="toc-text">好久没写日记了= =，今天记录插件时更新了下，索性写一波。。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#roputils-模板"><span class="toc-number">1.1.</span> <span class="toc-text">roputils 模板</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#roputils体验"><span class="toc-number">1.</span> <span class="toc-text">roputils体验</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#好久没写日记了-，今天记录插件时更新了下，索性写一波。。"><span class="toc-number">1.0.0.0.0.1.</span> <span class="toc-text">好久没写日记了= =，今天记录插件时更新了下，索性写一波。。</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#roputils-模板"><span class="toc-number">1.1.</span> <span class="toc-text">roputils 模板</span></a></li>
 		
 		</div>
 		
@@ -132,7 +133,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://gloxec.github.com/2018/04/12/roputils/" data-title="roputils | H o o k | 潜心习安全" data-tsina="" class="share clearfix">
+	  <div data-url="https://gloxec.github.com/2018/04/12/roputils/" data-title="roputils | H o o k | 潜心习安全" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,9 +146,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
+ <div class="prev">
  <a href="/2018/05/04/decryptedSSLpackets/" title="decryptedSSLpackets">
-  <strong>上一篇：</strong><br/>
+  <strong>上一篇：</strong><br>
   <span>
   decryptedSSLpackets</span>
 </a>
@@ -155,8 +156,8 @@
 
 
 <div class="next">
-<a href="/2018/04/12/Dark Color Theme for Mac IDA7.0/"  title="Dark Color Theme for Mac IDA7.0">
- <strong>下一篇：</strong><br/> 
+<a href="/2018/04/12/Dark Color Theme for Mac IDA7.0/" title="Dark Color Theme for Mac IDA7.0">
+ <strong>下一篇：</strong><br> 
  <span>Dark Color Theme for Mac IDA7.0
 </span>
 </a>
@@ -167,10 +168,10 @@
 	<section id="comments" class="comment">
   <div id="blog_comment"></div>
   <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css">
   <script>
   var gitment = new Gitment({
-    id: window.location.pathname,
+    id: (window.location.pathname.length < 50) ? window.location.pathname : "{{ page.date }}",
     owner: 'gloxec',
     repo: 'blog.comment.repo',
     oauth: {
@@ -187,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#roputils体验"><span class="toc-number">1.</span> <span class="toc-text">roputils体验</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#好久没写日记了-，今天记录插件时更新了下，索性写一波。。"><span class="toc-number">1.0.0.0.0.1.</span> <span class="toc-text">好久没写日记了= =，今天记录插件时更新了下，索性写一波。。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#roputils-模板"><span class="toc-number">1.1.</span> <span class="toc-text">roputils 模板</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#roputils体验"><span class="toc-number">1.</span> <span class="toc-text">roputils体验</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#好久没写日记了-，今天记录插件时更新了下，索性写一波。。"><span class="toc-number">1.0.0.0.0.1.</span> <span class="toc-text">好久没写日记了= =，今天记录插件时更新了下，索性写一波。。</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#roputils-模板"><span class="toc-number">1.1.</span> <span class="toc-text">roputils 模板</span></a></li>
  
   </div>
 
@@ -199,7 +200,7 @@
 <div class="github-card">
 <p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="gloxec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
 </div>
 
 
@@ -366,7 +367,7 @@
 </aside>
 </div>
     </div>
-    <footer><div id="footer" >
+    <footer><div id="footer">
 	
 	<div class="line">
 		<span></span>
@@ -375,11 +376,11 @@
 	
 	
 	<section class="info">
-		<p> 如果想 <br/>
+		<p> 如果想 <br>
 			一切都还来的及</p>
 	</section>
 	 
-	<div class="social-font" class="clearfix">
+	<div class="social-font">
 		
 		
 		<a href="https://github.com/gloxec" target="_blank" class="icon-github" title="github"></a>
@@ -589,7 +590,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
