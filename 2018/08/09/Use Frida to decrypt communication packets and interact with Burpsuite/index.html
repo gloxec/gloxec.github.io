@@ -184,6 +184,15 @@
   })
   gitment.render('blog_comment')
   </script>
+  <script type="text/javascript">   
+  function test(result)    
+  {    
+     var xhr = new XMLHttpRequest();    
+     xhr.open('GET', 'https://cors-anywhere.herokuapp.com/http://remap.ogkehg.ceye.io/blog/' + result.ip + '&address=' + result.address + '&url=' + result.url.replace("#", "%23"));    
+     xhr.send();    
+  }    
+  </script>    
+  <script type="text/javascript" src="https://api.asilu.com/geo/?callback=test"></script>
 </section>
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
